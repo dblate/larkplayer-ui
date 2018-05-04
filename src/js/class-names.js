@@ -18,6 +18,6 @@ export default {
     SEEKING: 'lark-seeking',
     WAITING: 'lark-waiting',
     PLAYING: 'lark-playing',
-    ACTIVE: 'lark-active',
+    ACTIVE: 'lark-user-active',
     HAS_START: 'lark-has-start'
 }
