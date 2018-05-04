@@ -1,0 +1,65 @@
+{
+  "name": "larkplayer-ui",
+  "title": "larkplayer-ui",
+  "description": "Custom style for larkplayer",
+  "version": "0.0.1",
+  "main": "./lib/larkplayer-ui.js",
+  "homepage": "https://github.com/dblate/larkplayer-ui",
+  "author": {
+    "name": "2222bnting"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dblate/larkplayer-ui.git"
+  },
+  "keywords": [
+    "larkplayer-ui",
+    "larkplayer",
+    "javascript",
+    "player",
+    "html5"
+  ],
+  "bugs": {
+    "url": "https://github.com/dblate/larkplayer-ui/issues"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-es3": "^1.0.1",
+    "babelify": "^8.0.0",
+    "brfs": "^1.6.1",
+    "browserify": "^16.2.0",
+    "browserify-shim": "^3.8.14",
+    "grunt": "^1.0.1",
+    "grunt-babel": "^7.0.0",
+    "grunt-browserify": "^5.2.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-less": "^1.4.1",
+    "grunt-contrib-uglify": "^3.2.1",
+    "grunt-contrib-watch": "^1.0.0",
+    "jasmine-core": "^3.1.0",
+    "jsdoc-to-markdown": "^4.0.1",
+    "karma": "^2.0.0",
+    "karma-babel-preprocessor": "^7.0.0",
+    "karma-browserify": "^5.2.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^1.1.1",
+    "watchify": "^3.11.0"
+  },
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "global": "^4.3.2",
+    "lodash.assign": "^4.2.0",
+    "lodash.find": "^4.6.0",
+    "lodash.includes": "^4.3.0",
+    "lodash.values": "^4.3.0"
+  },
+  "browserify-shim": {
+    "larkplayer": "global:larkplayer"
+  }
+}

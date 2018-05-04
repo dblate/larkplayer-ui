@@ -1,0 +1,4 @@
+/node_modules
+/dist
+/larkplayer
+*.DS_Store
