@@ -1,8 +1,6 @@
 # larkplayer-ui
 
-为 larkplayer 提供自定义样式
-
-## 简介
+为 [larkplayer](https://github.com/dblate/larkplayer) 提供自定义样式
 
 * 组件化
 * 支持 jsx 语法
@@ -12,11 +10,11 @@
 
 PC
 
-<img src="./screenshots/larkplayer-pc" width="640" height="360" />
+<img src="./screenshots/larkplayer-pc.png" width="640" height="360" />
 
 MOBILE
 
-<img src="./screenshots/larkplayer-mobile" width="640" height="360" />
+<img src="./screenshots/larkplayer-mobile.png" width="640" height="360" />
 
 ## 下载
 
