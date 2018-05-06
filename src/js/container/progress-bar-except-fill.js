@@ -14,7 +14,7 @@
 import classnames from 'classnames';
 import {Component} from 'larkplayer';
 
-import BufferBar from './buffer-bar';
+import BufferBar from '../component/buffer-bar';
 
 export default class ProgressBarExceptFill extends Component {
     createEl() {

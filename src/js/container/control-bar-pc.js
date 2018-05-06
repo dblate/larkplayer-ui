@@ -8,12 +8,12 @@ import classnames from 'classnames';
 import {Component} from 'larkplayer';
 
 import ProgressBar from './progress-bar';
-import CurrentTime from './current-time';
-import Duration from './duration';
-import PlayButton from './play-button';
-import FullscreenButton from './fullscreen-button';
-import GradientBottom from './gradient-bottom';
-import Volume from './volume';
+import CurrentTime from '../component/current-time';
+import Duration from '../component/duration';
+import PlayButton from '../component/play-button';
+import FullscreenButton from '../component/fullscreen-button';
+import GradientBottom from '../component/gradient-bottom';
+import Volume from '../component/volume';
 
 export default class ControlBarPc extends Component {
     reset() {

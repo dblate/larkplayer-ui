@@ -6,9 +6,9 @@
 
 
 import classnames from 'classnames';
-import {Component, DOM} from 'larkplayer';
+import {Component, DOM, util} from 'larkplayer';
 
-import {timeFormat} from './utils/time-format';
+const timeFormat = util.timeFormat;
 
 export default class Duration extends Component {
     constructor(player, options) {

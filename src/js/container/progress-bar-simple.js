@@ -7,7 +7,7 @@
 import classnames from 'classnames';
 import {Component, DOM} from 'larkplayer';
 
-import BufferBar from './buffer-bar';
+import BufferBar from '../component/buffer-bar';
 
 export default class ProgressBarSimple extends Component {
     constructor(player, options) {

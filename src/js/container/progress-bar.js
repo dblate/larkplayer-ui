@@ -8,14 +8,14 @@
 
 import classnames from 'classnames';
 /* eslint-disable no-unused-vars */
-import {Component, DOM} from 'larkplayer';
+import {Component, DOM, util} from 'larkplayer';
 /* eslint-enable no-unused-vars */
 
-import Slider from './slider';
-import tooltip from './tooltip';
-import featureDetector from './utils/feature-detector';
-import {timeFormat} from './utils/time-format';
+import Slider from '../component/slider';
+import tooltip from '../component/tooltip';
 import ProgressBarExceptFill from './progress-bar-except-fill';
+
+const {featureDetector, timeFormat} = util;
 
 
 export default class ProgressBar extends Slider {

@@ -5,9 +5,9 @@
  */
 
 import classnames from 'classnames';
-import {Component, DOM, Events} from 'larkplayer';
+import {Component, DOM, Events, util} from 'larkplayer';
 
-import featureDetector from './utils/feature-detector';
+const featureDetector = util.featureDetector;
 
 export default class PlayButton extends Component {
     constructor(player, options) {

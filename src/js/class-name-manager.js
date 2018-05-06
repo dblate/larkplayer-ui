@@ -4,11 +4,11 @@
  * @date 2018/5/4
  */
 
-import {Plugin, DOM} from 'larkplayer';
+import {Plugin, DOM, util} from 'larkplayer';
 
 import ClassNames from './class-names';
-import toTitleCase from './utils/to-title-case';
-import featureDetector from './utils/feature-detector';
+
+const {toTitleCase, featureDetector} = util;
 
 export default class ClassNameManager extends Plugin {
     constructor(player, options) {
@@ -19,11 +19,13 @@ export default class ClassNameManager extends Plugin {
         this.handleMouseLeave = this.handleMouseLeave.bind(this);
         this.handleTouchStart = this.handleTouchStart.bind(this);
         this.handleTouchEnd = this.handleTouchEnd.bind(this);
+        this.handleFirstplay = this.handleFirstplay.bind(this);
 
         this.activeTimeoutHandler = null;
         this.activeTimeout = 3000;
         this.events = [
             'loadstart',
+            'loadedmetadata',
             'canplay',
             'canplaythrough',
             'error',
@@ -39,7 +41,11 @@ export default class ClassNameManager extends Plugin {
         this.events.forEach(event => {
             const callbackName = `handle${toTitleCase(event)}`;
             this[callbackName] = this[callbackName].bind(this);
-            this.player.on(event, this[callbackName]);
+            // this.player.on(event, this[callbackName]);
+            this.player.on(event, () => {
+                console.log(event + ' triggered');
+                this[callbackName]();
+            });
         });
 
         if (featureDetector.touch) {
@@ -50,6 +56,9 @@ export default class ClassNameManager extends Plugin {
             this.player.on('mousemove', this.handleMouseMove);
             this.player.on('mouseleave', this.handleMouseLeave);
         }
+        this.player.on('firstplay', this.handleFirstplay);
+
+        this.player.addClass(ClassNames.PAUSED);
     }
 
     dispose() {
@@ -133,6 +142,10 @@ export default class ClassNameManager extends Plugin {
      */
     handleLoadstart() {
         this.player.addClass(ClassNames.LOADSTART);
+    }
+
+    handleLoadedmetadata() {
+        this.player.removeClass(ClassNames.LOADSTART);
     }
 
     /**

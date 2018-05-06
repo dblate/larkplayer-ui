@@ -7,10 +7,11 @@
 
 import classnames from 'classnames';
 import document from 'global/document';
-import {Component, DOM, Events} from 'larkplayer';
+import {Component, DOM, Events, util} from 'larkplayer';
 
 import tooltip from './tooltip';
-import featureDetector from './utils/feature-detector';
+
+const featureDetector = util.featureDetector;
 
 export default class FullscreenButton extends Component {
     constructor(player, options) {
@@ -22,7 +23,7 @@ export default class FullscreenButton extends Component {
 
         this.on('click', this.handleClick);
 
-        if (!('touchend' in document)) {
+        if (!featureDetector.touch) {
             this.fullscreenButton = DOM.$('.lark-request-fullscreen', this.el);
             this.exitFullscreenButton = DOM.$('.lark-exit-fullscreen', this.el);
 

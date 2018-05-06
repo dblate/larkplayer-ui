@@ -4,22 +4,20 @@
  * @date 2018/5/4
  */
 
-import larkplayer from 'larkplayer';
+import {Component, Plugin, util} from 'larkplayer';
 import document from 'global/document';
 
 import ClassNameManager from './class-name-manager';
-import ControlBar from './control-bar';
-import Loading from './loading';
-import PlayButton from './play-button';
-import ProgressBarSimple from './progress-bar-simple';
-import Complete from './complete';
-import ControlBarPc from './control-bar-pc';
-import LoadingPc from './loading-pc';
-import NotSupport from './not-support';
+import ControlBar from './container/control-bar';
+import ProgressBarSimple from './container/progress-bar-simple';
+import ControlBarPc from './container/control-bar-pc';
+import Loading from './component/loading';
+import PlayButton from './component/play-button';
+import Complete from './component/complete';
+import LoadingPc from './component/loading-pc';
+import NotSupport from './component/not-support';
 
-const Component = larkplayer.Component;
-const Plugin = larkplayer.Plugin;
-const isMobile = 'ontouchend' in document;
+const isMobile = util.featureDetector.touch;
 
 Plugin.register(ClassNameManager, {name: 'classNameManager'});
 

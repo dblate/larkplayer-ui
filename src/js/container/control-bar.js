@@ -7,9 +7,9 @@
 import classnames from 'classnames';
 import {Component} from 'larkplayer';
 
-import CurrentTime from './current-time';
-import Duration from './duration';
-import FullscreenButton from './fullscreen-button';
+import CurrentTime from '../component/current-time';
+import Duration from '../component/duration';
+import FullscreenButton from '../component/fullscreen-button';
 import ProgressBar from './progress-bar';
 
 export default class ControlBar extends Component {
