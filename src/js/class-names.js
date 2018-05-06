@@ -13,5 +13,6 @@ export default {
     WAITING: 'lark-waiting',
     PLAYING: 'lark-playing',
     ACTIVE: 'lark-user-active',
-    HAS_START: 'lark-has-start'
+    HAS_START: 'lark-has-start',
+    CONTROLS: 'lark-custom-controls'
 }

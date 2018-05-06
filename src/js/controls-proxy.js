@@ -1,0 +1,33 @@
+/**
+ * @file 代理 player.controls 方法
+ * @author yuhui06
+ * @date 2018/5/6
+ */
+
+import {Plugin} from 'larkplayer';
+
+import ClassNames from './class-names';
+
+export default class ControlsProxy extends Plugin {
+    constructor(player, options) {
+        super(player, options);
+        
+        this.controls = this.controls.bind(this);
+        this.player.addClass(ClassNames.CONTROLS);
+
+        this.player.tech.el.removeAttribute('controls');
+        this.player.controls = this.controls;
+    }
+
+    controls(bool) {
+        if (bool !== undefined) {
+            if (bool) {
+                this.player.addClass(ClassNames.CONTROLS);
+            } else {
+                this.player.removeClass(ClassNames.CONTROLS);
+            }
+        }
+
+        return this.player.hasClass(ClassNames.CONTROLS);
+    }
+}

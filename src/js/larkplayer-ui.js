@@ -8,6 +8,7 @@ import {Component, Plugin, util} from 'larkplayer';
 import document from 'global/document';
 
 import ClassNameManager from './class-name-manager';
+import ControlsProxy from './controls-proxy';
 import ControlBar from './container/control-bar';
 import ProgressBarSimple from './container/progress-bar-simple';
 import ControlBarPc from './container/control-bar-pc';
@@ -20,6 +21,7 @@ import NotSupport from './component/not-support';
 const isMobile = util.featureDetector.touch;
 
 Plugin.register(ClassNameManager, {name: 'classNameManager'});
+Plugin.register(ControlsProxy, {name: 'controlsProxy'});
 
 if (isMobile) {
     Component.register(ControlBar, {name: 'controlBar'});

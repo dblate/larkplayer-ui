@@ -42,7 +42,7 @@
 
 // 显示／隐藏 控制条
 // @todo 这种默认不显示，在 active 的时候显示是不是不太好
-.lark-user-active {
+.lark-custom-controls.lark-user-active {
     .lark-play-button-mobile {
         display: block;
     }
@@ -75,9 +75,9 @@
 
 // 播放器处于加载中状态时，显示 loading
 // loading 时不显示 播放／暂停按钮
-.lark-seeking,
-.lark-waiting,
-.lark-loadstart {
+.lark-custom-controls.lark-seeking,
+.lark-custom-controls.lark-waiting,
+.lark-custom-controls.lark-loadstart {
     .lark-loading-area {
         display: block;
     }
@@ -88,8 +88,8 @@
 }
 
 // 除了通过用户交互控制 控制条 显隐外，一些特定状态下（暂停、播放完成）我们强制显示进度条
-.lark-paused,
-.lark-ended {
+.lark-custom-controls.lark-paused,
+.lark-custom-controls.lark-ended {
     // 显示状态按钮
     .lark-play-button-mobile {
         display: block;
@@ -124,7 +124,7 @@
     }
 }
 
-.lark-paused {
+.lark-custom-controls.lark-paused {
     // pc 端暂停时显示 loading
     &.lark-seeking,
     &.lark-waiting,
@@ -137,13 +137,13 @@
     }
 }
 
-.lark-ended {
+.lark-custom-controls.lark-ended {
     .lark-complete {
         display: block;
     }
 }
 
-.lark-error {
+.lark-custom-controls.lark-error {
     .lark-error-area {
         display: block;
     }
@@ -155,12 +155,12 @@
     }
 }
 
-.lark-controls-hide {
-    .lark-control-bar,
-    .lark-control-bar-pc {
-        display: none;
-    }
-}
+// .lark-controls-hide {
+//     .lark-control-bar,
+//     .lark-control-bar-pc {
+//         display: none;
+//     }
+// }
 
 .lark-not-support {
     .lark-not-support-notice {
