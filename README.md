@@ -8,8 +8,8 @@
 
 *注意：此插件会修改 controls 方法：*
 
-* *修改前：player.controls() 返回和控制 video 标签的 controls 属性*
-* *修改后：player.controls() 返回和控制当前自定义样式是否展示。video 标签上的 controls 属性会被移除*
+* *修改前：player.controls() 返回或控制 video 标签的 controls 属性*
+* *修改后：player.controls() 返回或控制当前自定义样式是否展示。video 标签上的 controls 属性会被移除*
 
 ## 截图
 
