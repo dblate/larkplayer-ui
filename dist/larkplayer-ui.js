@@ -732,6 +732,14 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @file 播放器各状态 className 管理
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @author yuhui06
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @date 2018/5/4
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @see https://www.w3.org/TR/html5/semantics-embedded-content.html#media-elements-event-summary
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @desc
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *    * status 分为以下几种：
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *        * play: PLAYING
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *        * pause: PAUSED
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *        * loading: LOADSTART, SEEKING, WAITING
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *        * end: ENDED
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *        * error: ERROR
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var toTitleCase = _larkplayer.util.toTitleCase,
@@ -759,11 +767,7 @@ var ClassNameManager = function (_Plugin) {
         _this.events.forEach(function (event) {
             var callbackName = 'handle' + toTitleCase(event);
             _this[callbackName] = _this[callbackName].bind(_this);
-            // this.player.on(event, this[callbackName]);
-            _this.player.on(event, function () {
-                console.log(event + ' triggered');
-                _this[callbackName]();
-            });
+            _this.player.on(event, _this[callbackName]);
         });
 
         if (featureDetector.touch) {
@@ -887,11 +891,11 @@ var ClassNameManager = function (_Plugin) {
 
         // @todo player.removeClass 支持一次 remove 多个 class
         this.player.removeClass(_classNames2['default'].LOADSTART);
-        this.player.removeClass(_classNames2['default'].ENDED);
-        this.player.removeClass(_classNames2['default'].PAUSED);
-        this.player.removeClass(_classNames2['default'].ERROR);
         this.player.removeClass(_classNames2['default'].SEEKING);
         this.player.removeClass(_classNames2['default'].WAITING);
+        this.player.removeClass(_classNames2['default'].PAUSED);
+        this.player.removeClass(_classNames2['default'].ENDED);
+        this.player.removeClass(_classNames2['default'].ERROR);
         this.player.addClass(_classNames2['default'].PLAYING);
 
         clearTimeout(this.activeTimeoutHandler);
@@ -955,6 +959,10 @@ var ClassNameManager = function (_Plugin) {
     ClassNameManager.prototype.handlePlaying = function handlePlaying() {
         this.player.removeClass(_classNames2['default'].WAITING);
         this.player.removeClass(_classNames2['default'].LOADSTART);
+        this.player.removeClass(_classNames2['default'].SEEKING);
+        this.player.removeClass(_classNames2['default'].PAUSED);
+        this.player.removeClass(_classNames2['default'].ERROR);
+        this.player.removeClass(_classNames2['default'].ENDED);
     };
 
     /**
@@ -980,6 +988,7 @@ var ClassNameManager = function (_Plugin) {
     ClassNameManager.prototype.handleSeeked = function handleSeeked() {
         this.player.removeClass(_classNames2['default'].SEEKING);
         this.player.removeClass(_classNames2['default'].WAITING);
+        this.player.removeClass(_classNames2['default'].LOADSTART);
     };
 
     /**
@@ -1026,6 +1035,8 @@ var ClassNameManager = function (_Plugin) {
 
 
     ClassNameManager.prototype.handleEnded = function handleEnded() {
+        this.player.removeClass(_classNames2['default'].PLAYING);
+        this.player.removeClass(_classNames2['default'].ERROR);
         this.player.addClass(_classNames2['default'].ENDED);
     };
 
@@ -1039,7 +1050,11 @@ var ClassNameManager = function (_Plugin) {
 
     ClassNameManager.prototype.handleError = function handleError() {
         this.player.removeClass(_classNames2['default'].PLAYING);
+        this.player.removeClass(_classNames2['default'].ENDED);
+        this.player.removeClass(_classNames2['default'].PAUSED);
+        this.player.removeClass(_classNames2['default'].LOADSTART);
         this.player.removeClass(_classNames2['default'].SEEKING);
+        this.player.removeClass(_classNames2['default'].WAITING);
         this.player.addClass(_classNames2['default'].ERROR);
     };
 
@@ -1060,15 +1075,15 @@ exports.__esModule = true;
  */
 
 exports['default'] = {
-    LOADSTART: 'lark-loadstart',
-    ENDED: 'lark-ended',
-    PAUSED: 'lark-paused',
-    ERROR: 'lark-error',
-    SEEKING: 'lark-seeking',
-    WAITING: 'lark-waiting',
-    PLAYING: 'lark-playing',
-    ACTIVE: 'lark-user-active',
-    HAS_START: 'lark-has-start',
+    LOADSTART: 'lark-status-loadstart',
+    ENDED: 'lark-status-ended',
+    PAUSED: 'lark-status-paused',
+    ERROR: 'lark-status-error',
+    SEEKING: 'lark-status-seeking',
+    WAITING: 'lark-status-waiting',
+    PLAYING: 'lark-status-playing',
+    ACTIVE: 'lark-status-user-active',
+    HAS_START: 'lark-status-has-start',
     CONTROLS: 'lark-custom-controls'
 };
 
@@ -1417,7 +1432,7 @@ var ErrorPc = function (_Component) {
     };
 
     ErrorPc.prototype.handleError = function handleError(event) {
-        var error = event.detail || {};
+        var error = this.player.tech.el.error;
         var text = void 0;
         switch (parseInt(error.code, 10)) {
             // MEDIA_ERR_ABORTED
@@ -1752,12 +1767,9 @@ var LoadingPc = function (_Component) {
     LoadingPc.prototype.createEl = function createEl() {
         return _larkplayer.Component.createElement(
             'div',
-            { className: (0, _classnames2['default'])('lark-loading-pc', this.options.className) },
-            _larkplayer.Component.createElement(
-                'div',
-                { className: 'lark-loading-area' },
-                _larkplayer.Component.createElement('div', { className: 'lark-loading-spinner' })
-            )
+            { className: (0, _classnames2['default'])('lark-loading', 'lark-loading--pc', this.options.className)
+            },
+            _larkplayer.Component.createElement('div', { className: 'lark-loading-spinner' })
         );
     };
 
@@ -1803,14 +1815,15 @@ var Loading = function (_Component) {
     Loading.prototype.createEl = function createEl() {
         return _larkplayer.Component.createElement(
             'div',
-            { className: (0, _classnames2['default'])('lark-loading-area', this.options.className) },
+            { className: (0, _classnames2['default'])('lark-loading', 'lark-loading--mobile', this.options.className)
+            },
             _larkplayer.Component.createElement(
                 'div',
                 { className: 'lark-loading-cnt' },
-                _larkplayer.Component.createElement('span', { className: 'lark-loading-area__spinner lark-icon-loading' }),
+                _larkplayer.Component.createElement('span', { className: 'lark-loading-cnt__spinner lark-icon-loading' }),
                 _larkplayer.Component.createElement(
                     'span',
-                    { className: 'lark-loading-area__text' },
+                    { className: 'lark-loading-cnt__text' },
                     '\u6B63\u5728\u52A0\u8F7D'
                 )
             )
@@ -1872,9 +1885,6 @@ var NotSupport = function (_Component) {
 }(_larkplayer.Component);
 
 exports['default'] = NotSupport;
-
-
-_larkplayer.Component.register(NotSupport, { name: 'notSupport' });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"classnames":2}],18:[function(require,module,exports){
@@ -1944,7 +1954,7 @@ var PlayButton = function (_Component) {
         return _larkplayer.Component.createElement(
             'div',
             { className: (0, _classnames2['default'])('lark-play-button', this.options.className, {
-                    'lark-play-button-mobile': !this.options.className
+                    'lark-play-button--mobile': !this.options.className
                 }) },
             _larkplayer.Component.createElement('div', { className: 'lark-play-button__play lark-icon-play', title: 'play' }),
             _larkplayer.Component.createElement('div', { className: 'lark-play-button__pause lark-icon-pause', title: 'pause' })
@@ -2505,7 +2515,7 @@ var ControlBarPc = function (_Component) {
 exports['default'] = ControlBarPc;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../component/current-time":9,"../component/duration":10,"../component/fullscreen-button":13,"../component/gradient-bottom":14,"../component/play-button":18,"../component/volume":21,"./progress-bar":26,"classnames":2}],23:[function(require,module,exports){
+},{"../component/current-time":9,"../component/duration":10,"../component/fullscreen-button":13,"../component/gradient-bottom":14,"../component/play-button":18,"../component/volume":21,"./progress-bar":28,"classnames":2}],23:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2577,7 +2587,148 @@ var ControlBar = function (_Component) {
 exports['default'] = ControlBar;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../component/current-time":9,"../component/duration":10,"../component/fullscreen-button":13,"./progress-bar":26,"classnames":2}],24:[function(require,module,exports){
+},{"../component/current-time":9,"../component/duration":10,"../component/fullscreen-button":13,"./progress-bar":28,"classnames":2}],24:[function(require,module,exports){
+(function (global){
+'use strict';
+
+exports.__esModule = true;
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _larkplayer = (typeof window !== "undefined" ? window['larkplayer'] : typeof global !== "undefined" ? global['larkplayer'] : null);
+
+var _controlBar = require('./control-bar');
+
+var _controlBar2 = _interopRequireDefault(_controlBar);
+
+var _progressBarSimple = require('./progress-bar-simple');
+
+var _progressBarSimple2 = _interopRequireDefault(_progressBarSimple);
+
+var _loading = require('../component/loading');
+
+var _loading2 = _interopRequireDefault(_loading);
+
+var _playButton = require('../component/play-button');
+
+var _playButton2 = _interopRequireDefault(_playButton);
+
+var _notSupport = require('../component/not-support');
+
+var _notSupport2 = _interopRequireDefault(_notSupport);
+
+var _error = require('../component/error');
+
+var _error2 = _interopRequireDefault(_error);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ControlsMobile = function (_Component) {
+    _inherits(ControlsMobile, _Component);
+
+    function ControlsMobile() {
+        _classCallCheck(this, ControlsMobile);
+
+        return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+    }
+
+    ControlsMobile.prototype.createEl = function createEl() {
+        return _larkplayer.Component.createElement(
+            'div',
+            { className: (0, _classnames2['default'])('lark-custom-controls', 'lark-custom-controls--mobile', this.options.className)
+            },
+            _larkplayer.Component.createElement(_controlBar2['default'], null),
+            _larkplayer.Component.createElement(_playButton2['default'], null),
+            _larkplayer.Component.createElement(_loading2['default'], null),
+            _larkplayer.Component.createElement(_error2['default'], null),
+            _larkplayer.Component.createElement(_progressBarSimple2['default'], null),
+            _larkplayer.Component.createElement(_notSupport2['default'], null)
+        );
+    };
+
+    return ControlsMobile;
+}(_larkplayer.Component);
+
+exports['default'] = ControlsMobile;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../component/error":12,"../component/loading":16,"../component/not-support":17,"../component/play-button":18,"./control-bar":23,"./progress-bar-simple":27,"classnames":2}],25:[function(require,module,exports){
+(function (global){
+'use strict';
+
+exports.__esModule = true;
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _larkplayer = (typeof window !== "undefined" ? window['larkplayer'] : typeof global !== "undefined" ? global['larkplayer'] : null);
+
+var _controlBarPc = require('./control-bar-pc');
+
+var _controlBarPc2 = _interopRequireDefault(_controlBarPc);
+
+var _complete = require('../component/complete');
+
+var _complete2 = _interopRequireDefault(_complete);
+
+var _loadingPc = require('../component/loading-pc');
+
+var _loadingPc2 = _interopRequireDefault(_loadingPc);
+
+var _notSupport = require('../component/not-support');
+
+var _notSupport2 = _interopRequireDefault(_notSupport);
+
+var _errorPc = require('../component/error-pc');
+
+var _errorPc2 = _interopRequireDefault(_errorPc);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ControlsPc = function (_Component) {
+    _inherits(ControlsPc, _Component);
+
+    function ControlsPc() {
+        _classCallCheck(this, ControlsPc);
+
+        return _possibleConstructorReturn(this, _Component.apply(this, arguments));
+    }
+
+    ControlsPc.prototype.createEl = function createEl() {
+        return _larkplayer.Component.createElement(
+            'div',
+            { className: (0, _classnames2['default'])('lark-custom-controls', 'lark-custom-controls--pc', this.options.className)
+            },
+            _larkplayer.Component.createElement(_controlBarPc2['default'], null),
+            _larkplayer.Component.createElement(_loadingPc2['default'], null),
+            _larkplayer.Component.createElement(_errorPc2['default'], null),
+            _larkplayer.Component.createElement(_complete2['default'], null),
+            _larkplayer.Component.createElement(_notSupport2['default'], null)
+        );
+    };
+
+    return ControlsPc;
+}(_larkplayer.Component);
+
+exports['default'] = ControlsPc;
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../component/complete":8,"../component/error-pc":11,"../component/loading-pc":15,"../component/not-support":17,"./control-bar-pc":22,"classnames":2}],26:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2645,7 +2796,7 @@ var ProgressBarExceptFill = function (_Component) {
 exports['default'] = ProgressBarExceptFill;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../component/buffer-bar":7,"classnames":2}],25:[function(require,module,exports){
+},{"../component/buffer-bar":7,"classnames":2}],27:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2731,7 +2882,7 @@ var ProgressBarSimple = function (_Component) {
 exports['default'] = ProgressBarSimple;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../component/buffer-bar":7,"classnames":2}],26:[function(require,module,exports){
+},{"../component/buffer-bar":7,"classnames":2}],28:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -2951,7 +3102,7 @@ var ProgressBar = function (_Slider) {
 exports['default'] = ProgressBar;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../component/slider":19,"../component/tooltip":20,"./progress-bar-except-fill":24,"classnames":2}],27:[function(require,module,exports){
+},{"../component/slider":19,"../component/tooltip":20,"./progress-bar-except-fill":26,"classnames":2}],29:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -3009,15 +3160,11 @@ var ControlsProxy = function (_Plugin) {
 exports['default'] = ControlsProxy;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./class-names":6}],28:[function(require,module,exports){
+},{"./class-names":6}],30:[function(require,module,exports){
 (function (global){
 'use strict';
 
 var _larkplayer = (typeof window !== "undefined" ? window['larkplayer'] : typeof global !== "undefined" ? global['larkplayer'] : null);
-
-var _document = require('global/document');
-
-var _document2 = _interopRequireDefault(_document);
 
 var _classNameManager = require('./class-name-manager');
 
@@ -3027,74 +3174,26 @@ var _controlsProxy = require('./controls-proxy');
 
 var _controlsProxy2 = _interopRequireDefault(_controlsProxy);
 
-var _controlBar = require('./container/control-bar');
+var _controlsMobile = require('./container/controls-mobile');
 
-var _controlBar2 = _interopRequireDefault(_controlBar);
+var _controlsMobile2 = _interopRequireDefault(_controlsMobile);
 
-var _progressBarSimple = require('./container/progress-bar-simple');
+var _controlsPc = require('./container/controls-pc');
 
-var _progressBarSimple2 = _interopRequireDefault(_progressBarSimple);
-
-var _controlBarPc = require('./container/control-bar-pc');
-
-var _controlBarPc2 = _interopRequireDefault(_controlBarPc);
-
-var _loading = require('./component/loading');
-
-var _loading2 = _interopRequireDefault(_loading);
-
-var _playButton = require('./component/play-button');
-
-var _playButton2 = _interopRequireDefault(_playButton);
-
-var _complete = require('./component/complete');
-
-var _complete2 = _interopRequireDefault(_complete);
-
-var _loadingPc = require('./component/loading-pc');
-
-var _loadingPc2 = _interopRequireDefault(_loadingPc);
-
-var _notSupport = require('./component/not-support');
-
-var _notSupport2 = _interopRequireDefault(_notSupport);
-
-var _error = require('./component/error');
-
-var _error2 = _interopRequireDefault(_error);
-
-var _errorPc = require('./component/error-pc');
-
-var _errorPc2 = _interopRequireDefault(_errorPc);
+var _controlsPc2 = _interopRequireDefault(_controlsPc);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-/**
- * @file larkplayer custom style
- * @author yuhui06
- * @date 2018/5/4
- */
+_larkplayer.Plugin.register(_classNameManager2['default'], { name: 'classNameManager' }); /**
+                                                                                           * @file larkplayer custom style
+                                                                                           * @author yuhui06
+                                                                                           * @date 2018/5/4
+                                                                                           */
 
-var isMobile = _larkplayer.util.featureDetector.touch;
-
-_larkplayer.Plugin.register(_classNameManager2['default'], { name: 'classNameManager' });
 _larkplayer.Plugin.register(_controlsProxy2['default'], { name: 'controlsProxy' });
 
-if (isMobile) {
-    _larkplayer.Component.register(_controlBar2['default'], { name: 'controlBar' });
-    _larkplayer.Component.register(_loading2['default'], { name: 'loading' });
-    _larkplayer.Component.register(_playButton2['default'], { name: 'playButton' });
-    _larkplayer.Component.register(_progressBarSimple2['default'], { name: 'progressBarSimple' });
-    _larkplayer.Component.register(_error2['default'], { name: _error2['default'] });
-} else {
-    _larkplayer.Component.register(_complete2['default'], { name: 'complete' });
-    _larkplayer.Component.register(_controlBarPc2['default'], { name: 'controlBarPc' });
-    _larkplayer.Component.register(_loadingPc2['default'], { name: 'loadingPc' });
-    _larkplayer.Component.register(_errorPc2['default'], { name: _errorPc2['default'] });
-}
-
-_larkplayer.Component.register(_notSupport2['default'], { name: 'notSupport' });
+_larkplayer.util.featureDetector.touch ? _larkplayer.Component.register(_controlsMobile2['default'], { name: 'controlsMobile' }) : _larkplayer.Component.register(_controlsPc2['default'], { name: 'controlsPc' });
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./class-name-manager":5,"./component/complete":8,"./component/error":12,"./component/error-pc":11,"./component/loading":16,"./component/loading-pc":15,"./component/not-support":17,"./component/play-button":18,"./container/control-bar":23,"./container/control-bar-pc":22,"./container/progress-bar-simple":25,"./controls-proxy":27,"global/document":3}]},{},[28])(28)
+},{"./class-name-manager":5,"./container/controls-mobile":24,"./container/controls-pc":25,"./controls-proxy":29}]},{},[30])(30)
 });
