@@ -2,6 +2,14 @@
  * @file 播放器各状态 className 管理
  * @author yuhui06
  * @date 2018/5/4
+ * @see https://www.w3.org/TR/html5/semantics-embedded-content.html#media-elements-event-summary
+ * @desc
+ *    * status 分为以下几种：
+ *        * play: PLAYING
+ *        * pause: PAUSED
+ *        * loading: LOADSTART, SEEKING, WAITING
+ *        * end: ENDED
+ *        * error: ERROR
  */
 
 import {Plugin, DOM, util} from 'larkplayer';
@@ -41,11 +49,7 @@ export default class ClassNameManager extends Plugin {
         this.events.forEach(event => {
             const callbackName = `handle${toTitleCase(event)}`;
             this[callbackName] = this[callbackName].bind(this);
-            // this.player.on(event, this[callbackName]);
-            this.player.on(event, () => {
-                console.log(event + ' triggered');
-                this[callbackName]();
-            });
+            this.player.on(event, this[callbackName]);
         });
 
         if (featureDetector.touch) {
@@ -158,11 +162,11 @@ export default class ClassNameManager extends Plugin {
     handlePlay() {
         // @todo player.removeClass 支持一次 remove 多个 class
         this.player.removeClass(ClassNames.LOADSTART);
-        this.player.removeClass(ClassNames.ENDED);
-        this.player.removeClass(ClassNames.PAUSED);
-        this.player.removeClass(ClassNames.ERROR);
         this.player.removeClass(ClassNames.SEEKING);
         this.player.removeClass(ClassNames.WAITING);
+        this.player.removeClass(ClassNames.PAUSED);
+        this.player.removeClass(ClassNames.ENDED);
+        this.player.removeClass(ClassNames.ERROR);
         this.player.addClass(ClassNames.PLAYING);
 
         clearTimeout(this.activeTimeoutHandler);
@@ -218,6 +222,10 @@ export default class ClassNameManager extends Plugin {
     handlePlaying() {
         this.player.removeClass(ClassNames.WAITING);
         this.player.removeClass(ClassNames.LOADSTART);
+        this.player.removeClass(ClassNames.SEEKING);
+        this.player.removeClass(ClassNames.PAUSED);
+        this.player.removeClass(ClassNames.ERROR);
+        this.player.removeClass(ClassNames.ENDED);
     }
 
     /**
@@ -239,6 +247,7 @@ export default class ClassNameManager extends Plugin {
     handleSeeked() {
         this.player.removeClass(ClassNames.SEEKING);
         this.player.removeClass(ClassNames.WAITING);
+        this.player.removeClass(ClassNames.LOADSTART);
     }
 
     /**
@@ -277,6 +286,8 @@ export default class ClassNameManager extends Plugin {
      * @fires Player#ended
      */
     handleEnded() {
+        this.player.removeClass(ClassNames.PLAYING);
+        this.player.removeClass(ClassNames.ERROR);
         this.player.addClass(ClassNames.ENDED);
     }
 
@@ -288,7 +299,11 @@ export default class ClassNameManager extends Plugin {
      */
     handleError() {
         this.player.removeClass(ClassNames.PLAYING);
+        this.player.removeClass(ClassNames.ENDED);
+        this.player.removeClass(ClassNames.PAUSED);
+        this.player.removeClass(ClassNames.LOADSTART);
         this.player.removeClass(ClassNames.SEEKING);
+        this.player.removeClass(ClassNames.WAITING);
         this.player.addClass(ClassNames.ERROR);
     }
 }

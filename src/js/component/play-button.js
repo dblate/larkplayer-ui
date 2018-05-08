@@ -44,7 +44,7 @@ export default class PlayButton extends Component {
     createEl() {
         return (
             <div className={classnames('lark-play-button', this.options.className, {
-                'lark-play-button-mobile': !this.options.className
+                'lark-play-button--mobile': !this.options.className
             })}>
                 <div className="lark-play-button__play lark-icon-play" title="play"></div>
                 <div className="lark-play-button__pause lark-icon-pause" title="pause"></div>

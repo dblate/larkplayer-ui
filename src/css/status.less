@@ -1,25 +1,148 @@
 /**
- * @file 播放器状态
+ * @file 控制播放器各种状态下各元素的显隐
  * @author yuhui<yuhui06@baidu.com>
  * @date 2017/11/10
+ * @date 2018/5/8 重新整理，使整体更加清晰
+ * @desc
+ *     * status 共 5 种：[playing, paused, ended, loading, error]
+ *     * loading 细分为 loadstart seeking waiting 3 种
+ *     * status 的 className 由 js 控制切换
+ *     * status 下各组件的显示与隐藏由 css 控制，pc 和 mobile 分开处理
  */
 
 @import './mixins/mixins.less';
 
-.lark-playing {
-    .lark-play-button__play {
-        display: none;
+.lark-control-bar-pc {
+    opacity: 0;
+    .mixins-transition(opacity .25s cubic-bezier(0, 0, 0.2, 1));
+}
+
+.mixin-mobile-user-active() {
+    .lark-control-bar {
+        .mixins-flex();
     }
-    .lark-play-button__pause {
+    .lark-play-button--mobile {
         display: block;
     }
 
-    .lark-error-area {
+    .lark-progress-bar--simple {
         display: none;
     }
+}
 
-    .lark-loading-area {
-        display: none;
+.mixin-pc-user-active() {
+    .lark-control-bar-pc {
+        opacity: 1;
+    }
+}
+
+.lark-status-user-active {
+    .mixin-mobile-user-active();
+    .mixin-pc-user-active();
+}
+
+.lark-status-playing {
+    // .lark-custom-controls--mobile,
+    // .lark-custom-controls--pc {
+        .lark-play-button__play {
+            display: none;
+        }
+        .lark-play-button__pause {
+            display: block;
+        }
+    // }
+}
+
+.lark-status-paused {
+    .mixin-pc-user-active();
+    .mixin-mobile-user-active();
+
+    .lark-custom-controls--mobile {
+
+        .lark-play-button__play {
+            display: block;
+        }
+        .lark-play-button__pause {
+            display: none;
+        }
+
+        .lark-controls-bar {
+            display: block;
+        }
+    }
+
+    .lark-custom-controls--pc {
+        .lark-play-button__play {
+            display: block;
+        }
+        .lark-play-button__pause {
+            display: none;
+        }
+    }
+}
+
+.lark-status-ended {
+    .mixin-mobile-user-active();
+    .mixin-pc-user-active();
+
+    .lark-custom-controls--mobile {
+        .lark-play-button__play {
+            display: block;
+        }
+        .lark-play-button__pause {
+            display: none;
+        }
+
+        .lark-controls-bar {
+            display: block;
+        }
+    }
+
+    .lark-custom-controls--pc {
+        .lark-complete {
+            display: block;
+        }
+    }
+}
+
+// .lark-status-loading
+.lark-status-loadstart,
+.lark-status-seeking,
+.lark-status-waiting {
+    .lark-custom-controls--mobile {
+        .lark-loading--mobile {
+            display: block;
+        }
+        .lark-play-button {
+            display: none;
+        }
+    }
+
+    .lark-custom-controls--pc {
+        // @todo 名字编的
+        .lark-loading--pc {
+            display: block;
+        }
+    }
+}
+
+.lark-status-error {
+    .lark-custom-controls--mobile {
+        // @todo 名字改下
+        .lark-error-area {
+            display: block;
+        }
+
+        .lark-play-button {
+            display: none;
+        }
+    }
+
+    .lark-custom-controls--pc {
+        // @todo 名字编的
+        .lark-error--pc {
+            display: block;
+        }
     }
 }
 
@@ -31,7 +154,6 @@
 }
 .lark-fullscreen,
 .lark-full-window {
-    
     .lark-exit-fullscreen {
         display: block;
     }
@@ -40,134 +162,5 @@
     }
 }
 
-// 显示／隐藏 控制条
-// @todo 这种默认不显示，在 active 的时候显示是不是不太好
-.lark-custom-controls.lark-user-active {
-    .lark-play-button-mobile {
-        display: block;
-    }
 
-    .lark-control-bar {
-        .mixins-flex();
-    }
 
-    .lark-progress-bar--simple {
-        display: none;
-    }
-
-    .lark-control-bar-pc {
-        opacity: 1;
-    }
-}
-
-.lark-play-button-mobile {
-    display: none;
-}
-
-.lark-control-bar {
-    display: none;
-}
-
-.lark-control-bar-pc {
-    opacity: 0;
-    .mixins-transition(opacity .25s cubic-bezier(0, 0, 0.2, 1));
-}
-
-// 播放器处于加载中状态时，显示 loading
-// loading 时不显示 播放／暂停按钮
-.lark-custom-controls.lark-seeking,
-.lark-custom-controls.lark-waiting,
-.lark-custom-controls.lark-loadstart {
-    .lark-loading-area {
-        display: block;
-    }
-
-    .lark-play-button-mobile {
-        display: none;
-    }
-}
-
-// 除了通过用户交互控制 控制条 显隐外，一些特定状态下（暂停、播放完成）我们强制显示进度条
-.lark-custom-controls.lark-paused,
-.lark-custom-controls.lark-ended {
-    // 显示状态按钮
-    .lark-play-button-mobile {
-        display: block;
-    }
-    .lark-play-button__play {
-        display: block;
-    }
-    .lark-play-button__pause {
-        display: none;
-    }
-
-    // 显示进度条等
-    .lark-control-bar {
-        .mixins-flex();
-    }
-
-    .lark-progress-bar--simple {
-        display: none;
-    }
-
-    .lark-error-area {
-        display: none;
-    }
-
-    // 暂停状态不显示 loading
-    .lark-loading-area {
-        display: none;
-    }
-
-    .lark-control-bar-pc {
-        opacity: 1;
-    }
-}
-
-.lark-custom-controls.lark-paused {
-    // pc 端暂停时显示 loading
-    &.lark-seeking,
-    &.lark-waiting,
-    &.lark-loadstart {
-        .lark-loading-pc {
-            .lark-loading-area {
-                display: block;
-            }
-        }
-    }
-}
-
-.lark-custom-controls.lark-ended {
-    .lark-complete {
-        display: block;
-    }
-}
-
-.lark-custom-controls.lark-error {
-    .lark-error-area {
-        display: block;
-    }
-    .lark-play-button-mobile {
-        display: none;
-    }
-    .lark-loading-area {
-        display: none;
-    }
-}
-
-// .lark-controls-hide {
-//     .lark-control-bar,
-//     .lark-control-bar-pc {
-//         display: none;
-//     }
-// }
-
-.lark-not-support {
-    .lark-not-support-notice {
-        display: block;
-    }
-}
-
-.lark-hidden {
-    display: none;
-}

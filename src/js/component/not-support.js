@@ -18,5 +18,3 @@ export default class NotSupport extends Component {
         );
     }
 }
-
-Component.register(NotSupport, {name: 'notSupport'});

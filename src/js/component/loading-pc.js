@@ -10,10 +10,12 @@ import {Component} from 'larkplayer';
 export default class LoadingPc extends Component {
     createEl() {
         return (
-            <div className={classnames('lark-loading-pc', this.options.className)}>
-                <div className="lark-loading-area">
-                    <div className="lark-loading-spinner"></div>
-                </div>
+            <div className={classnames(
+                'lark-loading',
+                'lark-loading--pc',
+                this.options.className)}
+            >
+                <div className="lark-loading-spinner"></div>
             </div>
         );
     }

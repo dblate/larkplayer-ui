@@ -31,7 +31,7 @@ export default class ErrorPc extends Component {
     }
 
     handleError(event) {
-        const error = event.detail || {};
+        const error = this.player.tech.el.error;
         let text;
         switch (parseInt(error.code, 10)) {
             // MEDIA_ERR_ABORTED
