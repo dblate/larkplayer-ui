@@ -17,6 +17,8 @@ import PlayButton from './component/play-button';
 import Complete from './component/complete';
 import LoadingPc from './component/loading-pc';
 import NotSupport from './component/not-support';
+import Error from './component/error';
+import ErrorPc from './component/error-pc';
 
 const isMobile = util.featureDetector.touch;
 
@@ -28,10 +30,12 @@ if (isMobile) {
     Component.register(Loading, {name: 'loading'});
     Component.register(PlayButton, {name: 'playButton'});
     Component.register(ProgressBarSimple, {name: 'progressBarSimple'});
+    Component.register(Error, {name: Error});
 } else {
     Component.register(Complete, {name: 'complete'});
     Component.register(ControlBarPc, {name: 'controlBarPc'});
     Component.register(LoadingPc, {name: 'loadingPc'});
+    Component.register(ErrorPc, {name: ErrorPc});
 }
 
 Component.register(NotSupport, {name: 'notSupport'});
