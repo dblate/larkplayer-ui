@@ -78,16 +78,37 @@ module.exports = function (grunt) {
                 }
             }
         }
+        // browserify: {
+        //     dist: {
+        //         options: {
+        //             transform: [
+        //                 ["babelify", {
+        //                     presets: [ "es3", ["es2015", {"loose": true}]],
+        //                     plugins: [
+        //                         ["transform-react-jsx", {
+        //                             "pragma": "Component.createElement"
+        //                         }]
+        //                     ]
+        //                 }]
+        //             ],
+        //             browserifyOptions: {
+        //                 standalone: '<%= pkg.name %>'
+        //             },
+        //             external: ['larkplayer']
+        //         },
+        //         files: {
+        //             './dist/<%= pkg.name %>-external.js': ['./src/js/<%= pkg.name %>.js']
+        //         }
+        //     }
+        // }
     });
     grunt.loadNpmTasks('grunt-babel');
-    // grunt.loadNpmTasks('grunt-contrib-jshint');
-    // grunt.loadNpmTasks('grunt-contrib-watch');
-    // grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-browserify');
     grunt.registerTask('default', ['less', 'browserify', 'uglify', 'copy']);
+    grunt.registerTask('external', ['browserify']);
     // grunt.registerTask('default', ['less', 'browserify', 'copy']);
 
     grunt.registerTask('generate-lib', ['babel'])
