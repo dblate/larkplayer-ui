@@ -43,10 +43,14 @@ export default class Error extends Component {
 
     createEl() {
         return (
-            <div className={classnames('lark-error-area', this.options.className)}>
+            <div className={classnames(
+                'lark-error',
+                'lark-error--mobile',
+                this.options.className)}
+            >
                 <div className="lark-error-cnt">
-                    <span className="lark-error-area__spinner lark-icon-loading"></span>
-                    <span className="lark-error-area__text">加载失败，点击重试</span>
+                    <span className="lark-error-cnt__spinner lark-icon-loading"></span>
+                    <span className="lark-error-cnt__text">加载失败，点击重试</span>
                 </div>
             </div>
         );

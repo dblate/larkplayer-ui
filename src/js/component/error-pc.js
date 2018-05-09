@@ -67,8 +67,12 @@ export default class ErrorPc extends Component {
 
     createEl() {
         return (
-            <div className={classnames('lark-error-pc', this.options.className)}>
-                <div className="lark-error-area">
+            <div className={classnames(
+                'lark-error',
+                'lark-error--pc',
+                this.options.className)}
+            >
+                <div className="lark-error-cnt">
                     <div className="lark-error-text">
                         加载失败，请稍后重试
                     </div>
