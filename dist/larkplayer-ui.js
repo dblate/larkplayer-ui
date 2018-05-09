@@ -1469,10 +1469,11 @@ var ErrorPc = function (_Component) {
     ErrorPc.prototype.createEl = function createEl() {
         return _larkplayer.Component.createElement(
             'div',
-            { className: (0, _classnames2['default'])('lark-error-pc', this.options.className) },
+            { className: (0, _classnames2['default'])('lark-error', 'lark-error--pc', this.options.className)
+            },
             _larkplayer.Component.createElement(
                 'div',
-                { className: 'lark-error-area' },
+                { className: 'lark-error-cnt' },
                 _larkplayer.Component.createElement(
                     'div',
                     { className: 'lark-error-text' },
@@ -1555,14 +1556,15 @@ var Error = function (_Component) {
     Error.prototype.createEl = function createEl() {
         return _larkplayer.Component.createElement(
             'div',
-            { className: (0, _classnames2['default'])('lark-error-area', this.options.className) },
+            { className: (0, _classnames2['default'])('lark-error', 'lark-error--mobile', this.options.className)
+            },
             _larkplayer.Component.createElement(
                 'div',
                 { className: 'lark-error-cnt' },
-                _larkplayer.Component.createElement('span', { className: 'lark-error-area__spinner lark-icon-loading' }),
+                _larkplayer.Component.createElement('span', { className: 'lark-error-cnt__spinner lark-icon-loading' }),
                 _larkplayer.Component.createElement(
                     'span',
-                    { className: 'lark-error-area__text' },
+                    { className: 'lark-error-cnt__text' },
                     '\u52A0\u8F7D\u5931\u8D25\uFF0C\u70B9\u51FB\u91CD\u8BD5'
                 )
             )
