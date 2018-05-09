@@ -250,6 +250,12 @@
 .lark-full-window .lark-request-fullscreen {
   display: none;
 }
+.lark-custom-controls-hide .lark-control-bar,
+.lark-custom-controls-hide .lark-control-bar-pc,
+.lark-custom-controls-hide .lark-play-button--mobile,
+.lark-custom-controls-hide .lark-progress-bar--simple {
+  display: none;
+}
 .lark-progress-bar {
   position: relative;
   cursor: pointer;

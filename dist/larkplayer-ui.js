@@ -1084,7 +1084,7 @@ exports['default'] = {
     PLAYING: 'lark-status-playing',
     ACTIVE: 'lark-status-user-active',
     HAS_START: 'lark-status-has-start',
-    CONTROLS: 'lark-custom-controls'
+    CONTROLS_HIDE: 'lark-custom-controls-hide'
 };
 
 },{}],7:[function(require,module,exports){
@@ -3137,23 +3137,21 @@ var ControlsProxy = function (_Plugin) {
         var _this = _possibleConstructorReturn(this, _Plugin.call(this, player, options));
 
         _this.controls = _this.controls.bind(_this);
-        _this.player.addClass(_classNames2['default'].CONTROLS);
-
         _this.player.tech.el.removeAttribute('controls');
         _this.player.controls = _this.controls;
         return _this;
     }
 
-    ControlsProxy.prototype.controls = function controls(bool) {
-        if (bool !== undefined) {
-            if (bool) {
-                this.player.addClass(_classNames2['default'].CONTROLS);
+    ControlsProxy.prototype.controls = function controls(showControls) {
+        if (showControls !== undefined) {
+            if (showControls) {
+                this.player.removeClass(_classNames2['default'].CONTROLS_HIDE);
             } else {
-                this.player.removeClass(_classNames2['default'].CONTROLS);
+                this.player.addClass(_classNames2['default'].CONTROLS_HIDE);
             }
         }
 
-        return this.player.hasClass(_classNames2['default'].CONTROLS);
+        return !this.player.hasClass(_classNames2['default'].CONTROLS_HIDE);
     };
 
     return ControlsProxy;

@@ -14,5 +14,5 @@ export default {
     PLAYING: 'lark-status-playing',
     ACTIVE: 'lark-status-user-active',
     HAS_START: 'lark-status-has-start',
-    CONTROLS: 'lark-custom-controls'
+    CONTROLS_HIDE: 'lark-custom-controls-hide'
 }

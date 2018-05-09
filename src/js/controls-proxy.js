@@ -13,21 +13,19 @@ export default class ControlsProxy extends Plugin {
         super(player, options);
         
         this.controls = this.controls.bind(this);
-        this.player.addClass(ClassNames.CONTROLS);
-
         this.player.tech.el.removeAttribute('controls');
         this.player.controls = this.controls;
     }
 
-    controls(bool) {
-        if (bool !== undefined) {
-            if (bool) {
-                this.player.addClass(ClassNames.CONTROLS);
+    controls(showControls) {
+        if (showControls !== undefined) {
+            if (showControls) {
+                this.player.removeClass(ClassNames.CONTROLS_HIDE);
             } else {
-                this.player.removeClass(ClassNames.CONTROLS);
+                this.player.addClass(ClassNames.CONTROLS_HIDE);
             }
         }
 
-        return this.player.hasClass(ClassNames.CONTROLS);
+        return !this.player.hasClass(ClassNames.CONTROLS_HIDE);
     }
 }
