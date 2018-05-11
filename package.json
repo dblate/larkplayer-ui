@@ -2,7 +2,7 @@
   "name": "larkplayer-ui",
   "title": "larkplayer-ui",
   "description": "Custom style for larkplayer",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "main": "./dist/larkplayer-ui-external.js",
   "homepage": "https://github.com/dblate/larkplayer-ui",
   "author": {
@@ -54,10 +54,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "global": "^4.3.2",
-    "lodash.assign": "^4.2.0",
-    "lodash.find": "^4.6.0",
-    "lodash.includes": "^4.3.0",
-    "lodash.values": "^4.3.0"
+    "lodash.assign": "^4.2.0"
   },
   "browserify-shim": {
     "larkplayer": "global:larkplayer"
