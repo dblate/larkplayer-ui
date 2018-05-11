@@ -14,9 +14,9 @@ import {Component, DOM, util} from 'larkplayer';
 import Slider from '../component/slider';
 import tooltip from '../component/tooltip';
 import ProgressBarExceptFill from './progress-bar-except-fill';
+import timeFormat from '../util/time-format';
 
-const {featureDetector, timeFormat} = util;
-
+const featureDetector = util.featureDetector;
 
 export default class ProgressBar extends Slider {
     constructor(player, options) {

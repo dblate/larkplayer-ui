@@ -1236,6 +1236,10 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 var _larkplayer = require('larkplayer');
 
+var _timeFormat = require('../util/time-format');
+
+var _timeFormat2 = _interopRequireDefault(_timeFormat);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1247,8 +1251,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @author yuhui<yuhui06@baidu.com>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @date 2017/11/4
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var timeFormat = _larkplayer.util.timeFormat;
 
 var CurrentTime = function (_Component) {
     _inherits(CurrentTime, _Component);
@@ -1269,7 +1271,7 @@ var CurrentTime = function (_Component) {
     };
 
     CurrentTime.prototype.render = function render(time) {
-        _larkplayer.DOM.textContent(this.el, timeFormat(Math.floor(time)));
+        _larkplayer.DOM.textContent(this.el, (0, _timeFormat2['default'])(Math.floor(time)));
     };
 
     CurrentTime.prototype.reset = function reset() {
@@ -1288,7 +1290,7 @@ var CurrentTime = function (_Component) {
         return _larkplayer.Component.createElement(
             'div',
             { className: (0, _classnames2['default'])('lark-current-time', this.options.className) },
-            timeFormat(Math.floor(currentTime))
+            (0, _timeFormat2['default'])(Math.floor(currentTime))
         );
     };
 
@@ -1297,7 +1299,7 @@ var CurrentTime = function (_Component) {
 
 exports['default'] = CurrentTime;
 
-},{"classnames":2,"larkplayer":"larkplayer"}],10:[function(require,module,exports){
+},{"../util/time-format":31,"classnames":2,"larkplayer":"larkplayer"}],10:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -1307,6 +1309,10 @@ var _classnames = require('classnames');
 var _classnames2 = _interopRequireDefault(_classnames);
 
 var _larkplayer = require('larkplayer');
+
+var _timeFormat = require('../util/time-format');
+
+var _timeFormat2 = _interopRequireDefault(_timeFormat);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
@@ -1319,8 +1325,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @author yuhui<yuhui06@baidu.com>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @date 2017/11/10
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
-
-var timeFormat = _larkplayer.util.timeFormat;
 
 var Duration = function (_Component) {
     _inherits(Duration, _Component);
@@ -1338,7 +1342,7 @@ var Duration = function (_Component) {
     }
 
     Duration.prototype.handleLoadedMetaData = function handleLoadedMetaData(event) {
-        _larkplayer.DOM.textContent(this.el, timeFormat(Math.floor(this.player.duration())));
+        _larkplayer.DOM.textContent(this.el, (0, _timeFormat2['default'])(Math.floor(this.player.duration())));
     };
 
     Duration.prototype.reset = function reset() {
@@ -1354,7 +1358,7 @@ var Duration = function (_Component) {
 
     Duration.prototype.createEl = function createEl() {
         // @todo 暂时将 duration 的值写在这，后面需要处理下对于已经发生的事件怎么办
-        var durationContent = timeFormat(Math.floor(this.player.duration()));
+        var durationContent = (0, _timeFormat2['default'])(Math.floor(this.player.duration()));
 
         return _larkplayer.Component.createElement(
             'div',
@@ -1368,7 +1372,7 @@ var Duration = function (_Component) {
 
 exports['default'] = Duration;
 
-},{"classnames":2,"larkplayer":"larkplayer"}],11:[function(require,module,exports){
+},{"../util/time-format":31,"classnames":2,"larkplayer":"larkplayer"}],11:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2863,6 +2867,10 @@ var _progressBarExceptFill = require('./progress-bar-except-fill');
 
 var _progressBarExceptFill2 = _interopRequireDefault(_progressBarExceptFill);
 
+var _timeFormat = require('../util/time-format');
+
+var _timeFormat2 = _interopRequireDefault(_timeFormat);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -2880,8 +2888,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 /* eslint-enable no-unused-vars */
 
-var featureDetector = _larkplayer.util.featureDetector,
-    timeFormat = _larkplayer.util.timeFormat;
+var featureDetector = _larkplayer.util.featureDetector;
 
 var ProgressBar = function (_Slider) {
     _inherits(ProgressBar, _Slider);
@@ -2992,7 +2999,7 @@ var ProgressBar = function (_Slider) {
                     placement: 'top',
                     isFollowMouse: true,
                     event: event,
-                    content: timeFormat(Math.floor(currentTime))
+                    content: (0, _timeFormat2['default'])(Math.floor(currentTime))
                 });
             }
         }
@@ -3058,7 +3065,7 @@ var ProgressBar = function (_Slider) {
 
 exports['default'] = ProgressBar;
 
-},{"../component/slider":19,"../component/tooltip":20,"./progress-bar-except-fill":26,"classnames":2,"larkplayer":"larkplayer"}],29:[function(require,module,exports){
+},{"../component/slider":19,"../component/tooltip":20,"../util/time-format":31,"./progress-bar-except-fill":26,"classnames":2,"larkplayer":"larkplayer"}],29:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -3145,5 +3152,64 @@ _larkplayer.Plugin.register(_controlsProxy2['default'], { name: 'controlsProxy' 
 
 _larkplayer.util.featureDetector.touch ? _larkplayer.Component.register(_controlsMobile2['default'], { name: 'controlsMobile' }) : _larkplayer.Component.register(_controlsPc2['default'], { name: 'controlsPc' });
 
-},{"./class-name-manager":5,"./container/controls-mobile":24,"./container/controls-pc":25,"./controls-proxy":29,"larkplayer":"larkplayer"}]},{},[30])(30)
+},{"./class-name-manager":5,"./container/controls-mobile":24,"./container/controls-pc":25,"./controls-proxy":29,"larkplayer":"larkplayer"}],31:[function(require,module,exports){
+'use strict';
+
+exports.__esModule = true;
+exports['default'] = timeFormat;
+/**
+ * @file time-format.js 将秒数格式化为指定的时间字符串形式
+ * @author yuhui<yuhui06@baidu.com>
+ * @date 2017/11/3
+ */
+
+/**
+ * 将秒数格式化为 hh:mm:ss 的形式
+ *
+ * @param {number} seconds 要转化的秒数
+ * @return {string} 格式化后的表示时间的字符串
+ */
+
+/**
+ * 不足两位的时间，前面补零
+ *
+ * @inner
+ *
+ * @param {string|number} val 该段位的时间（如 1h 12h 23m 1s）
+ * @return {string} 进行过不足两位前面补零操作的时间串
+ */
+function pad(val) {
+    val = '' + val;
+    if (val.length < 2) {
+        val = '0' + val;
+    }
+
+    return val;
+}
+
+/**
+ * 将传入的秒数格式化为 hh:mm:ss 的形式，如果不足一小时，则为 mm:ss 的形式
+ *
+ * @param {number} seconds 总秒数
+ * @return {string} 格式化后的时间串
+ */
+function timeFormat(seconds) {
+    seconds = parseInt(seconds, 10);
+    if (!isNaN(seconds)) {
+        var hour = Math.floor(seconds / 3600);
+        var minute = Math.floor((seconds - hour * 3600) / 60);
+        var second = seconds % 60;
+
+        var result = [pad(minute), pad(second)];
+        if (hour > 0) {
+            result.unshift(pad(hour));
+        }
+
+        return result.join(':');
+    } else {
+        return '- -';
+    }
+}
+
+},{}]},{},[30])(30)
 });
