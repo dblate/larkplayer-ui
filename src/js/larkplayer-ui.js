@@ -4,6 +4,7 @@
  * @date 2018/5/4
  */
 
+import '../css/larkplayer-ui.less';
 import {Component, Plugin, util} from 'larkplayer';
 
 import ClassNameManager from './class-name-manager';

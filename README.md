@@ -32,11 +32,13 @@ npm install larkplayer-ui
 CDN
 
 ```javascript
-<link rel="stylesheet" href="https://unpkg.com/larkplayer-ui@latest/dist/larkplayer-ui.css" />
 <script src="https://unpkg.com/larkplayer-ui@latest/dist/larkplayer-ui.js"></script>
 ```
 
 ## 使用
+
+
+#### script
 
 ```javascript
 <!DOCTYPE html>
@@ -44,7 +46,6 @@ CDN
 <head>
     <meta charset="utf-8">
     <title>larkplayer custom style</title>
-    <link rel="stylesheet" href="https://unpkg.com/larkplayer-ui@latest/dist/larkplayer-ui.css" />
     <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,initial-scale=1.0,user-scalable=no">
 </head>
 <body>
@@ -62,6 +63,15 @@ CDN
     </script>
 </body>
 </html>
+```
+
+#### 模块化
+
+```javascript
+import larkplayer from 'larkplayer';
+import 'larkplayer-ui';
+
+const player = larkplayer('video-el-id');
 ```
 
 ## License

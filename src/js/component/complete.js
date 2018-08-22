@@ -9,6 +9,22 @@ import classnames from 'classnames';
 import {Component} from 'larkplayer';
 
 export default class Complete extends Component {
+    constructor(player, options) {
+        super(player, options);
+
+        this.handleClick = this.handleClick.bind(this);
+        this.on('click', this.handleClick);
+    }
+
+    handleClick() {
+        this.player.play();
+    }
+
+    dispose() {
+        this.off('click', this.handleClick);
+        super.dispose();
+    }
+
     createEl() {
         return (
             <div className={classnames('lark-complete', this.options.className)}>
