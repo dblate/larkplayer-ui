@@ -12,7 +12,6 @@ import ControlsProxy from './controls-proxy';
 import ControlsMobile from './container/controls-mobile';
 import ControlsPc from './container/controls-pc';
 
-
 Plugin.register(ClassNameManager, {name: 'classNameManager'});
 Plugin.register(ControlsProxy, {name: 'controlsProxy'});
 

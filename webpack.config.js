@@ -1,10 +1,12 @@
 var path = require('path');
 
 module.exports = {
+    devtool: 'source-map',
+    mode: 'development',
     entry: './src/js/larkplayer-ui.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'larkplayer-ui.min.js',
+        filename: 'larkplayer-ui.js',
         library: 'larkplayer-ui',
         libraryTarget: 'umd'
     },

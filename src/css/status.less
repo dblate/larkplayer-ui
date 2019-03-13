@@ -53,6 +53,27 @@
     // }
 }
 
+// .lark-status-loading
+.lark-status-loadstart,
+.lark-status-seeking,
+.lark-status-waiting {
+    .lark-custom-controls--mobile {
+        .lark-loading--mobile {
+            display: block;
+        }
+        .lark-play-button {
+            display: none;
+        }
+    }
+
+    .lark-custom-controls--pc {
+        // @todo 名字编的
+        .lark-loading--pc {
+            display: block;
+        }
+    }
+}
+
 .lark-status-paused {
     .mixin-pc-user-active();
     .mixin-mobile-user-active();
@@ -63,6 +84,10 @@
             display: block;
         }
         .lark-play-button__pause {
+            display: none;
+        }
+
+        .lark-loading--mobile {
             display: none;
         }
 
@@ -100,27 +125,6 @@
 
     .lark-custom-controls--pc {
         .lark-complete {
-            display: block;
-        }
-    }
-}
-
-// .lark-status-loading
-.lark-status-loadstart,
-.lark-status-seeking,
-.lark-status-waiting {
-    .lark-custom-controls--mobile {
-        .lark-loading--mobile {
-            display: block;
-        }
-        .lark-play-button {
-            display: none;
-        }
-    }
-
-    .lark-custom-controls--pc {
-        // @todo 名字编的
-        .lark-loading--pc {
             display: block;
         }
     }

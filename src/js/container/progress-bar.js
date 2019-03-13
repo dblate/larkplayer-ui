@@ -67,6 +67,7 @@ export default class ProgressBar extends Slider {
     }
 
     onSlideStart(event) {
+        event.preventDefault();
         this.originalPaused = this.player.paused();
     }
 
@@ -82,7 +83,7 @@ export default class ProgressBar extends Slider {
 
     onSlideEnd(event) {
         // 如果播放器在拖动进度条前不是处于暂停状态，那么拖动完了之后继续播放
-        if (this.player.paused && !this.originalPaused && this.originalPaused !== undefined) {
+        if (this.player.paused() && !this.originalPaused && this.originalPaused !== undefined) {
             this.player.play();
         }
     }
