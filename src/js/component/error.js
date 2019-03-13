@@ -6,7 +6,7 @@
 
 
 import classnames from 'classnames';
-import {Component} from 'larkplayer';
+import {Component, DOM} from 'larkplayer';
 
 export default class Error extends Component {
     constructor(player, options) {
@@ -14,6 +14,7 @@ export default class Error extends Component {
 
         this.handleError = this.handleError.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.textEl = DOM.$('.lark-error-cnt__text', this.el);
 
         this.player.on('error', this.handleError);
         this.on('click', this.handleClick);
@@ -23,6 +24,32 @@ export default class Error extends Component {
         /* eslint-disable no-console */
         console.log(event, event.detail);
         /* eslint-enable no-console */
+
+        const error = this.player.tech.el.error;
+        const defaultText = '加载失败，点击重试';
+        let text;
+        switch (parseInt(error.code, 10)) {
+            // MEDIA_ERR_ABORTED
+            case 1:
+                text = `${defaultText}(ERR_ABORTED)`;
+                break;
+            // MEDIA_ERR_NETWORK
+            case 2:
+                text = `${defaultText}(ERR_NETWORK)`;
+                break;
+            // MEDIA_ERR_DECODE
+            case 3:
+                text = `${defaultText}(ERR_DECODE)`;
+                break;
+            // MEDIA_ERR_SRC_NOT_SUPPORTED
+            case 4:
+                text = `${defaultText}(ERR_SRC)`;
+                break;
+            default:
+                text = defaultText;
+        }
+
+        DOM.replaceContent(this.textEl, text);
     }
 
     handleClick() {
@@ -37,6 +64,7 @@ export default class Error extends Component {
     dispose() {
         this.player.off('error', this.handleError);
         this.off('click', this.handleClick);
+        this.textEl = null;
 
         super.dispose();
     }
