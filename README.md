@@ -11,6 +11,8 @@
 * *修改前：player.controls() 返回或控制 video 标签的 controls 属性*
 * *修改后：player.controls() 返回或控制当前自定义样式是否展示。video 标签上的 controls 属性会被移除*
 
+*注意：此插件会新增 controlsshow controlshide 事件，用以同步控制条显隐状态
+
 ## 截图
 
 PC
