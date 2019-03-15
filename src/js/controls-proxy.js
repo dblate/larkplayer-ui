@@ -6,7 +6,7 @@
 
 import {Plugin} from 'larkplayer';
 
-import ClassNames from './class-names';
+import {ClassNames} from './constants';
 
 export default class ControlsProxy extends Plugin {
     constructor(player, options) {

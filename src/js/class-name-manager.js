@@ -14,7 +14,7 @@
 
 import {Plugin, DOM, util} from 'larkplayer';
 
-import ClassNames from './class-names';
+import {ClassNames, ACTIVE_DURATION} from './constants';
 
 const {toTitleCase, featureDetector} = util;
 
@@ -30,7 +30,7 @@ export default class ClassNameManager extends Plugin {
         this.handleFirstplay = this.handleFirstplay.bind(this);
 
         this.activeTimeoutHandler = null;
-        this.activeTimeout = 3000;
+        this.activeTimeout = ACTIVE_DURATION;
         this.events = [
             'loadstart',
             'loadedmetadata',

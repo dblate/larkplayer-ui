@@ -1630,11 +1630,7 @@ var _get = function get(object, property, receiver) { if (object === null) objec
 
 var _larkplayer = __webpack_require__(/*! larkplayer */ "larkplayer");
 
-var _classNames = __webpack_require__(/*! ./class-names */ "./src/js/class-names.js");
-
-var _classNames2 = _interopRequireDefault(_classNames);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _constants = __webpack_require__(/*! ./constants */ "./src/js/constants.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -1673,7 +1669,7 @@ var ClassNameManager = function (_Plugin) {
         _this.handleFirstplay = _this.handleFirstplay.bind(_this);
 
         _this.activeTimeoutHandler = null;
-        _this.activeTimeout = 3000;
+        _this.activeTimeout = _constants.ACTIVE_DURATION;
         _this.events = ['loadstart', 'loadedmetadata', 'canplay', 'canplaythrough', 'error', 'playing', 'waiting', 'seeking', 'seeked', 'ended', 'play', 'pause'];
 
         _this.events.forEach(function (event) {
@@ -1692,7 +1688,7 @@ var ClassNameManager = function (_Plugin) {
         }
         _this.player.on('firstplay', _this.handleFirstplay);
 
-        _this.player.addClass(_classNames2.default.PAUSED);
+        _this.player.addClass(_constants.ClassNames.PAUSED);
         return _this;
     }
 
@@ -1719,7 +1715,7 @@ var ClassNameManager = function (_Plugin) {
         key: 'handleTouchStart',
         value: function handleTouchStart(event) {
             // 当控制条显示并且手指放在控制条上时
-            if (this.player.hasClass(_classNames2.default.ACTIVE)) {
+            if (this.player.hasClass(_constants.ClassNames.ACTIVE)) {
                 if (_larkplayer.DOM.parent(event.target, 'lark-play-button') || _larkplayer.DOM.parent(event.target, 'lark-control-bar')) {
 
                     clearTimeout(this.activeTimeoutHandler);
@@ -1742,12 +1738,12 @@ var ClassNameManager = function (_Plugin) {
             }
 
             if (!clickOnControls) {
-                this.player.toggleClass(_classNames2.default.ACTIVE);
+                this.player.toggleClass(_constants.ClassNames.ACTIVE);
             }
 
-            if (this.player.hasClass(_classNames2.default.ACTIVE)) {
+            if (this.player.hasClass(_constants.ClassNames.ACTIVE)) {
                 this.activeTimeoutHandler = setTimeout(function () {
-                    _this3.player.removeClass(_classNames2.default.ACTIVE);
+                    _this3.player.removeClass(_constants.ClassNames.ACTIVE);
                 }, this.activeTimeout);
             }
         }
@@ -1758,12 +1754,12 @@ var ClassNameManager = function (_Plugin) {
 
             clearTimeout(this.activeTimeoutHandler);
 
-            if (!this.player.hasClass(_classNames2.default.ACTIVE)) {
-                this.player.addClass(_classNames2.default.ACTIVE);
+            if (!this.player.hasClass(_constants.ClassNames.ACTIVE)) {
+                this.player.addClass(_constants.ClassNames.ACTIVE);
             }
 
             this.activeTimeoutHandler = setTimeout(function () {
-                _this4.player.removeClass(_classNames2.default.ACTIVE);
+                _this4.player.removeClass(_constants.ClassNames.ACTIVE);
             }, this.activeTimeout);
         }
     }, {
@@ -1775,7 +1771,7 @@ var ClassNameManager = function (_Plugin) {
         key: 'handleMouseLeave',
         value: function handleMouseLeave(event) {
             clearTimeout(this.activeTimeoutHandler);
-            this.player.removeClass(_classNames2.default.ACTIVE);
+            this.player.removeClass(_constants.ClassNames.ACTIVE);
         }
 
         /**
@@ -1790,12 +1786,12 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handleLoadstart',
         value: function handleLoadstart() {
-            this.player.addClass(_classNames2.default.LOADSTART);
+            this.player.addClass(_constants.ClassNames.LOADSTART);
         }
     }, {
         key: 'handleLoadedmetadata',
         value: function handleLoadedmetadata() {
-            this.player.removeClass(_classNames2.default.LOADSTART);
+            this.player.removeClass(_constants.ClassNames.LOADSTART);
         }
 
         /**
@@ -1812,18 +1808,18 @@ var ClassNameManager = function (_Plugin) {
             var _this5 = this;
 
             // @todo player.removeClass 支持一次 remove 多个 class
-            this.player.removeClass(_classNames2.default.LOADSTART);
-            this.player.removeClass(_classNames2.default.SEEKING);
-            this.player.removeClass(_classNames2.default.WAITING);
-            this.player.removeClass(_classNames2.default.PAUSED);
-            this.player.removeClass(_classNames2.default.ENDED);
-            this.player.removeClass(_classNames2.default.ERROR);
-            this.player.addClass(_classNames2.default.PLAYING);
+            this.player.removeClass(_constants.ClassNames.LOADSTART);
+            this.player.removeClass(_constants.ClassNames.SEEKING);
+            this.player.removeClass(_constants.ClassNames.WAITING);
+            this.player.removeClass(_constants.ClassNames.PAUSED);
+            this.player.removeClass(_constants.ClassNames.ENDED);
+            this.player.removeClass(_constants.ClassNames.ERROR);
+            this.player.addClass(_constants.ClassNames.PLAYING);
 
             clearTimeout(this.activeTimeoutHandler);
-            this.player.addClass(_classNames2.default.ACTIVE);
+            this.player.addClass(_constants.ClassNames.ACTIVE);
             this.activeTimeoutHandler = setTimeout(function () {
-                _this5.player.removeClass(_classNames2.default.ACTIVE);
+                _this5.player.removeClass(_constants.ClassNames.ACTIVE);
             }, this.activeTimeout);
         }
 
@@ -1838,7 +1834,7 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handleWaiting',
         value: function handleWaiting() {
-            this.player.addClass(_classNames2.default.WAITING);
+            this.player.addClass(_constants.ClassNames.WAITING);
         }
 
         /**
@@ -1851,12 +1847,12 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handleCanplay',
         value: function handleCanplay() {
-            this.player.removeClass(_classNames2.default.WAITING);
-            this.player.removeClass(_classNames2.default.LOADSTART);
+            this.player.removeClass(_constants.ClassNames.WAITING);
+            this.player.removeClass(_constants.ClassNames.LOADSTART);
 
             if (this.player.paused()) {
-                this.player.removeClass(_classNames2.default.PLAYING);
-                this.player.addClass(_classNames2.default.PAUSED);
+                this.player.removeClass(_constants.ClassNames.PLAYING);
+                this.player.addClass(_constants.ClassNames.PAUSED);
             }
         }
 
@@ -1870,7 +1866,7 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handleCanplaythrough',
         value: function handleCanplaythrough() {
-            this.player.removeClass(_classNames2.default.WAITING);
+            this.player.removeClass(_constants.ClassNames.WAITING);
         }
 
         /**
@@ -1883,12 +1879,12 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handlePlaying',
         value: function handlePlaying() {
-            this.player.removeClass(_classNames2.default.WAITING);
-            this.player.removeClass(_classNames2.default.LOADSTART);
-            this.player.removeClass(_classNames2.default.SEEKING);
-            this.player.removeClass(_classNames2.default.PAUSED);
-            this.player.removeClass(_classNames2.default.ERROR);
-            this.player.removeClass(_classNames2.default.ENDED);
+            this.player.removeClass(_constants.ClassNames.WAITING);
+            this.player.removeClass(_constants.ClassNames.LOADSTART);
+            this.player.removeClass(_constants.ClassNames.SEEKING);
+            this.player.removeClass(_constants.ClassNames.PAUSED);
+            this.player.removeClass(_constants.ClassNames.ERROR);
+            this.player.removeClass(_constants.ClassNames.ENDED);
         }
 
         /**
@@ -1901,7 +1897,7 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handleSeeking',
         value: function handleSeeking() {
-            this.player.addClass(_classNames2.default.SEEKING);
+            this.player.addClass(_constants.ClassNames.SEEKING);
         }
 
         /**
@@ -1914,9 +1910,9 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handleSeeked',
         value: function handleSeeked() {
-            this.player.removeClass(_classNames2.default.SEEKING);
-            this.player.removeClass(_classNames2.default.WAITING);
-            this.player.removeClass(_classNames2.default.LOADSTART);
+            this.player.removeClass(_constants.ClassNames.SEEKING);
+            this.player.removeClass(_constants.ClassNames.WAITING);
+            this.player.removeClass(_constants.ClassNames.LOADSTART);
         }
 
         /**
@@ -1933,12 +1929,12 @@ var ClassNameManager = function (_Plugin) {
             var _this6 = this;
 
             // @todo 不清楚有什么用
-            this.player.addClass(_classNames2.default.HAS_START);
+            this.player.addClass(_constants.ClassNames.HAS_START);
 
             clearTimeout(this.activeTimeoutHandler);
-            this.player.addClass(_classNames2.default.ACTIVE);
+            this.player.addClass(_constants.ClassNames.ACTIVE);
             this.activeTimeoutHandler = setTimeout(function () {
-                _this6.player.removeClass(_classNames2.default.ACTIVE);
+                _this6.player.removeClass(_constants.ClassNames.ACTIVE);
             }, this.activeTimeout);
         }
 
@@ -1952,8 +1948,8 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handlePause',
         value: function handlePause() {
-            this.player.removeClass(_classNames2.default.PLAYING);
-            this.player.addClass(_classNames2.default.PAUSED);
+            this.player.removeClass(_constants.ClassNames.PLAYING);
+            this.player.addClass(_constants.ClassNames.PAUSED);
         }
 
         /**
@@ -1966,9 +1962,9 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handleEnded',
         value: function handleEnded() {
-            this.player.removeClass(_classNames2.default.PLAYING);
-            this.player.removeClass(_classNames2.default.ERROR);
-            this.player.addClass(_classNames2.default.ENDED);
+            this.player.removeClass(_constants.ClassNames.PLAYING);
+            this.player.removeClass(_constants.ClassNames.ERROR);
+            this.player.addClass(_constants.ClassNames.ENDED);
         }
 
         /**
@@ -1981,13 +1977,13 @@ var ClassNameManager = function (_Plugin) {
     }, {
         key: 'handleError',
         value: function handleError() {
-            this.player.removeClass(_classNames2.default.PLAYING);
-            this.player.removeClass(_classNames2.default.ENDED);
-            this.player.removeClass(_classNames2.default.PAUSED);
-            this.player.removeClass(_classNames2.default.LOADSTART);
-            this.player.removeClass(_classNames2.default.SEEKING);
-            this.player.removeClass(_classNames2.default.WAITING);
-            this.player.addClass(_classNames2.default.ERROR);
+            this.player.removeClass(_constants.ClassNames.PLAYING);
+            this.player.removeClass(_constants.ClassNames.ENDED);
+            this.player.removeClass(_constants.ClassNames.PAUSED);
+            this.player.removeClass(_constants.ClassNames.LOADSTART);
+            this.player.removeClass(_constants.ClassNames.SEEKING);
+            this.player.removeClass(_constants.ClassNames.WAITING);
+            this.player.addClass(_constants.ClassNames.ERROR);
         }
     }]);
 
@@ -1995,40 +1991,6 @@ var ClassNameManager = function (_Plugin) {
 }(_larkplayer.Plugin);
 
 exports.default = ClassNameManager;
-
-/***/ }),
-
-/***/ "./src/js/class-names.js":
-/*!*******************************!*\
-  !*** ./src/js/class-names.js ***!
-  \*******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-/**
- * @file 播放器各状态 className
- * @author yuhui06
- * @date 2018/5/6
- */
-
-exports.default = {
-    LOADSTART: 'lark-status-loadstart',
-    ENDED: 'lark-status-ended',
-    PAUSED: 'lark-status-paused',
-    ERROR: 'lark-status-error',
-    SEEKING: 'lark-status-seeking',
-    WAITING: 'lark-status-waiting',
-    PLAYING: 'lark-status-playing',
-    ACTIVE: 'lark-status-user-active',
-    HAS_START: 'lark-status-has-start',
-    CONTROLS_HIDE: 'lark-custom-controls-hide'
-};
 
 /***/ }),
 
@@ -3672,6 +3634,47 @@ exports.default = Volume;
 
 /***/ }),
 
+/***/ "./src/js/constants.js":
+/*!*****************************!*\
+  !*** ./src/js/constants.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+/**
+ * @file 常量
+ * @author yuhui06
+ * @date 2019/3/15
+ */
+
+var ClassNames = exports.ClassNames = {
+    LOADSTART: 'lark-status-loadstart',
+    ENDED: 'lark-status-ended',
+    PAUSED: 'lark-status-paused',
+    ERROR: 'lark-status-error',
+    SEEKING: 'lark-status-seeking',
+    WAITING: 'lark-status-waiting',
+    PLAYING: 'lark-status-playing',
+    ACTIVE: 'lark-status-user-active',
+    HAS_START: 'lark-status-has-start',
+    CONTROLS_HIDE: 'lark-custom-controls-hide'
+};
+
+var Events = exports.Events = {
+    CONTROLS_SHOW: 'controlsshow',
+    CONTROLS_HIDE: 'controlshide'
+};
+
+var ACTIVE_DURATION = exports.ACTIVE_DURATION = 3000;
+
+/***/ }),
+
 /***/ "./src/js/container/control-bar-pc.js":
 /*!********************************************!*\
   !*** ./src/js/container/control-bar-pc.js ***!
@@ -4488,6 +4491,144 @@ exports.default = ProgressBar;
 
 /***/ }),
 
+/***/ "./src/js/controls-event.js":
+/*!**********************************!*\
+  !*** ./src/js/controls-event.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _larkplayer = __webpack_require__(/*! larkplayer */ "larkplayer");
+
+var _constants = __webpack_require__(/*! ./constants */ "./src/js/constants.js");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @file 触发自定义 CONTROLS_SHOW CONTROLS_HIDE 事件
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author yuhui06
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 2019/3/15
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var toTitleCase = _larkplayer.util.toTitleCase,
+    featureDetector = _larkplayer.util.featureDetector,
+    includes = _larkplayer.util.includes;
+
+var ControlsEvent = function (_Plugin) {
+    _inherits(ControlsEvent, _Plugin);
+
+    function ControlsEvent(player, options) {
+        _classCallCheck(this, ControlsEvent);
+
+        var _this = _possibleConstructorReturn(this, (ControlsEvent.__proto__ || Object.getPrototypeOf(ControlsEvent)).call(this, player, options));
+
+        var eventsOnlyMobile = ['touchstart', 'touchend'];
+        var eventsOnlyPc = ['mouseenter', 'mousemove', 'mouseleave'];
+        var allEvents = ['play', 'pause', 'ended'].concat(eventsOnlyMobile, eventsOnlyPc);
+        allEvents.forEach(function (eventName) {
+            var callbackName = 'handle' + toTitleCase(eventName);
+            _this[callbackName] = _this[callbackName].bind(_this);
+            if (includes(eventsOnlyMobile, eventName)) {
+                if (featureDetector.touch) {
+                    _this.player.on(eventName, _this[callbackName]);
+                }
+            } else if (includes(eventsOnlyPc, eventName)) {
+                if (!featureDetector.touch) {
+                    _this.player.on(eventName, _this[callbackName]);
+                }
+            } else {
+                _this.player.on(eventName, _this[callbackName]);
+            }
+        });
+        return _this;
+    }
+
+    _createClass(ControlsEvent, [{
+        key: 'setTimeoutTriggerControlsHide',
+        value: function setTimeoutTriggerControlsHide() {
+            var _this2 = this;
+
+            this.timeoutHandler = setTimeout(function () {
+                _this2.player.trigger(_constants.Events.CONTROLS_HIDE);
+            }, _constants.ACTIVE_DURATION);
+        }
+    }, {
+        key: 'handlePlay',
+        value: function handlePlay() {
+            clearTimeout(this.timeoutHandler);
+            this.player.trigger(_constants.Events.CONTROLS_SHOW);
+            this.setTimeoutTriggerControlsHide();
+        }
+    }, {
+        key: 'handleTouchstart',
+        value: function handleTouchstart() {
+            clearTimeout(this.timeoutHandler);
+        }
+    }, {
+        key: 'handleTouchend',
+        value: function handleTouchend() {
+            clearTimeout(this.timeoutHandler);
+
+            if (this.player.hasClass(_constants.ClassNames.ACTIVE)) {
+                this.player.trigger(_constants.Events.CONTROLS_SHOW);
+                this.setTimeoutTriggerControlsHide();
+            } else if (!this.player.paused()) {
+                this.player.trigger(_constants.Events.CONTROLS_HIDE);
+            }
+        }
+    }, {
+        key: 'handleMouseenter',
+        value: function handleMouseenter() {
+            clearTimeout(this.timeoutHandler);
+
+            this.player.trigger(_constants.Events.CONTROLS_SHOW);
+            this.setTimeoutTriggerControlsHide();
+        }
+    }, {
+        key: 'handleMousemove',
+        value: function handleMousemove() {
+            this.handleMouseenter();
+        }
+    }, {
+        key: 'handleMouseleave',
+        value: function handleMouseleave() {
+            clearTimeout(this.timeoutHandler);
+            if (!this.player.paused()) {
+                this.player.trigger(_constants.Events.CONTROLS_HIDE);
+            }
+        }
+    }, {
+        key: 'handlePause',
+        value: function handlePause() {
+            clearTimeout(this.timeoutHandler);
+            this.player.trigger(_constants.Events.CONTROLS_SHOW);
+        }
+    }, {
+        key: 'handleEnded',
+        value: function handleEnded() {
+            clearTimeout(this.timeoutHandler);
+            this.player.trigger(_constants.Events.CONTROLS_SHOW);
+        }
+    }]);
+
+    return ControlsEvent;
+}(_larkplayer.Plugin);
+
+exports.default = ControlsEvent;
+
+/***/ }),
+
 /***/ "./src/js/controls-proxy.js":
 /*!**********************************!*\
   !*** ./src/js/controls-proxy.js ***!
@@ -4506,11 +4647,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _larkplayer = __webpack_require__(/*! larkplayer */ "larkplayer");
 
-var _classNames = __webpack_require__(/*! ./class-names */ "./src/js/class-names.js");
-
-var _classNames2 = _interopRequireDefault(_classNames);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _constants = __webpack_require__(/*! ./constants */ "./src/js/constants.js");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4541,13 +4678,13 @@ var ControlsProxy = function (_Plugin) {
         value: function controls(showControls) {
             if (showControls !== undefined) {
                 if (showControls) {
-                    this.player.removeClass(_classNames2.default.CONTROLS_HIDE);
+                    this.player.removeClass(_constants.ClassNames.CONTROLS_HIDE);
                 } else {
-                    this.player.addClass(_classNames2.default.CONTROLS_HIDE);
+                    this.player.addClass(_constants.ClassNames.CONTROLS_HIDE);
                 }
             }
 
-            return !this.player.hasClass(_classNames2.default.CONTROLS_HIDE);
+            return !this.player.hasClass(_constants.ClassNames.CONTROLS_HIDE);
         }
     }]);
 
@@ -4580,6 +4717,10 @@ var _controlsProxy = __webpack_require__(/*! ./controls-proxy */ "./src/js/contr
 
 var _controlsProxy2 = _interopRequireDefault(_controlsProxy);
 
+var _controlsEvent = __webpack_require__(/*! ./controls-event */ "./src/js/controls-event.js");
+
+var _controlsEvent2 = _interopRequireDefault(_controlsEvent);
+
 var _controlsMobile = __webpack_require__(/*! ./container/controls-mobile */ "./src/js/container/controls-mobile.js");
 
 var _controlsMobile2 = _interopRequireDefault(_controlsMobile);
@@ -4590,14 +4731,14 @@ var _controlsPc2 = _interopRequireDefault(_controlsPc);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-/**
- * @file larkplayer custom style
- * @author yuhui06
- * @date 2018/5/4
- */
+_larkplayer.Plugin.register(_classNameManager2.default, { name: 'classNameManager' }); /**
+                                                                                        * @file larkplayer custom style
+                                                                                        * @author yuhui06
+                                                                                        * @date 2018/5/4
+                                                                                        */
 
-_larkplayer.Plugin.register(_classNameManager2.default, { name: 'classNameManager' });
 _larkplayer.Plugin.register(_controlsProxy2.default, { name: 'controlsProxy' });
+_larkplayer.Plugin.register(_controlsEvent2.default, { name: 'controlsEvent' });
 
 _larkplayer.util.featureDetector.touch ? _larkplayer.Component.register(_controlsMobile2.default, { name: 'controlsMobile' }) : _larkplayer.Component.register(_controlsPc2.default, { name: 'controlsPc' });
 
