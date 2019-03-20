@@ -14,6 +14,10 @@ export default class ControlsEvent extends Plugin {
     constructor(player, options) {
         super(player, options);
 
+        this.handleAllEvents('on');
+    }
+
+    handleAllEvents(method) {
         const eventsOnlyMobile = ['touchstart', 'touchend'];
         const eventsOnlyPc = ['mouseenter', 'mousemove', 'mouseleave'];
         const allEvents = ['play', 'pause', 'ended', ...eventsOnlyMobile, ...eventsOnlyPc];
@@ -22,16 +26,22 @@ export default class ControlsEvent extends Plugin {
             this[callbackName] = this[callbackName].bind(this);
             if (includes(eventsOnlyMobile, eventName)) {
                 if (featureDetector.touch) {
-                    this.player.on(eventName, this[callbackName]);
+                    this.player[method](eventName, this[callbackName]);
                 }
             } else if (includes(eventsOnlyPc, eventName)) {
                 if (!featureDetector.touch) {
-                    this.player.on(eventName, this[callbackName]);
+                    this.player[method](eventName, this[callbackName]);
                 }
             } else {
-                this.player.on(eventName, this[callbackName]);
+                this.player[method](eventName, this[callbackName]);
             }
         });
+    }
+
+    dispose() {
+        clearTimeout(this.timeoutHandler);
+        this.handleAllEvents('off');
+        super.dispose();
     }
 
     setTimeoutTriggerControlsHide() {

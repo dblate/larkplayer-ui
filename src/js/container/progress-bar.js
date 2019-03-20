@@ -41,6 +41,9 @@ export default class ProgressBar extends Slider {
         this.player.on('timeupdate', this.handleTimeUpdate);
         this.on('click', this.handleClick);
         this.on('touchstart', this.handleSlideStart);
+        this.player.on('ready', () => {
+            this.currentTimeEl = DOM.$('.lark-current-time', this.player.el);
+        });
 
         if (!featureDetector.touch) {
             this.on('mousedown', this.handleSlideStart);
@@ -82,8 +85,16 @@ export default class ProgressBar extends Slider {
     }
 
     onSlideEnd(event) {
+        const pos = DOM.getPointerPosition(this.el, event);
+        const currentTime = this.player.duration() * pos.x;
+        this.player.currentTime(currentTime);
+
         // 如果播放器在拖动进度条前不是处于暂停状态，那么拖动完了之后继续播放
-        if (this.player.paused() && !this.originalPaused && this.originalPaused !== undefined) {
+        const isOriginalPlay = (!this.originalPaused && this.originalPaused !== undefined);
+        const isEnded = (Math.ceil(this.player.currentTime()) >= this.player.duration());
+        const isPaused = this.player.paused();
+
+        if (isPaused && isOriginalPlay && !isEnded) {
             this.player.play();
         }
     }
@@ -93,8 +104,11 @@ export default class ProgressBar extends Slider {
         const percent = pos.x * 100 + '%';
         const currentTime = this.player.duration() * pos.x;
 
-        this.player.currentTime(currentTime);
+        // this.player.currentTime(currentTime);
         this.line.style.width = percent;
+        if (this.currentTimeEl) {
+            DOM.textContent(this.currentTimeEl, timeFormat(Math.floor(currentTime)));
+        }
     }
 
     reset() {

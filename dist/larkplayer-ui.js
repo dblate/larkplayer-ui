@@ -1697,6 +1697,7 @@ var ClassNameManager = function (_Plugin) {
         value: function dispose() {
             var _this2 = this;
 
+            clearTimeout(this.activeTimeoutHandler);
             if (featureDetector.touch) {
                 this.player.off('touchstart', this.handleTouchStart);
                 this.player.off('touchend', this.handleTouchEnd);
@@ -1708,6 +1709,8 @@ var ClassNameManager = function (_Plugin) {
             this.events.forEach(function (event) {
                 _this2.player.off(event, _this2['handle' + toTitleCase(event)]);
             });
+
+            this.player.off('firstplay', this.handleFirstplay);
 
             _get(ClassNameManager.prototype.__proto__ || Object.getPrototypeOf(ClassNameManager.prototype), 'dispose', this).call(this);
         }
@@ -4213,7 +4216,7 @@ var ProgressBarSimple = function (_Component) {
     }, {
         key: 'dispose',
         value: function dispose() {
-            player.off('timeupdate', this.handleTimeUpdate);
+            this.player.off('timeupdate', this.handleTimeUpdate);
             this.line = null;
             _get(ProgressBarSimple.prototype.__proto__ || Object.getPrototypeOf(ProgressBarSimple.prototype), 'dispose', this).call(this);
         }
@@ -4323,6 +4326,9 @@ var ProgressBar = function (_Slider) {
         _this.player.on('timeupdate', _this.handleTimeUpdate);
         _this.on('click', _this.handleClick);
         _this.on('touchstart', _this.handleSlideStart);
+        _this.player.on('ready', function () {
+            _this.currentTimeEl = _larkplayer.DOM.$('.lark-current-time', _this.player.el);
+        });
 
         if (!featureDetector.touch) {
             _this.on('mousedown', _this.handleSlideStart);
@@ -4371,8 +4377,16 @@ var ProgressBar = function (_Slider) {
     }, {
         key: 'onSlideEnd',
         value: function onSlideEnd(event) {
+            var pos = _larkplayer.DOM.getPointerPosition(this.el, event);
+            var currentTime = this.player.duration() * pos.x;
+            this.player.currentTime(currentTime);
+
             // 如果播放器在拖动进度条前不是处于暂停状态，那么拖动完了之后继续播放
-            if (this.player.paused() && !this.originalPaused && this.originalPaused !== undefined) {
+            var isOriginalPlay = !this.originalPaused && this.originalPaused !== undefined;
+            var isEnded = Math.ceil(this.player.currentTime()) >= this.player.duration();
+            var isPaused = this.player.paused();
+
+            if (isPaused && isOriginalPlay && !isEnded) {
                 this.player.play();
             }
         }
@@ -4383,8 +4397,11 @@ var ProgressBar = function (_Slider) {
             var percent = pos.x * 100 + '%';
             var currentTime = this.player.duration() * pos.x;
 
-            this.player.currentTime(currentTime);
+            // this.player.currentTime(currentTime);
             this.line.style.width = percent;
+            if (this.currentTimeEl) {
+                _larkplayer.DOM.textContent(this.currentTimeEl, (0, _timeFormat2.default)(Math.floor(currentTime)));
+            }
         }
     }, {
         key: 'reset',
@@ -4507,6 +4524,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
+
 var _larkplayer = __webpack_require__(/*! larkplayer */ "larkplayer");
 
 var _constants = __webpack_require__(/*! ./constants */ "./src/js/constants.js");
@@ -4533,34 +4552,48 @@ var ControlsEvent = function (_Plugin) {
 
         var _this = _possibleConstructorReturn(this, (ControlsEvent.__proto__ || Object.getPrototypeOf(ControlsEvent)).call(this, player, options));
 
-        var eventsOnlyMobile = ['touchstart', 'touchend'];
-        var eventsOnlyPc = ['mouseenter', 'mousemove', 'mouseleave'];
-        var allEvents = ['play', 'pause', 'ended'].concat(eventsOnlyMobile, eventsOnlyPc);
-        allEvents.forEach(function (eventName) {
-            var callbackName = 'handle' + toTitleCase(eventName);
-            _this[callbackName] = _this[callbackName].bind(_this);
-            if (includes(eventsOnlyMobile, eventName)) {
-                if (featureDetector.touch) {
-                    _this.player.on(eventName, _this[callbackName]);
-                }
-            } else if (includes(eventsOnlyPc, eventName)) {
-                if (!featureDetector.touch) {
-                    _this.player.on(eventName, _this[callbackName]);
-                }
-            } else {
-                _this.player.on(eventName, _this[callbackName]);
-            }
-        });
+        _this.handleAllEvents('on');
         return _this;
     }
 
     _createClass(ControlsEvent, [{
-        key: 'setTimeoutTriggerControlsHide',
-        value: function setTimeoutTriggerControlsHide() {
+        key: 'handleAllEvents',
+        value: function handleAllEvents(method) {
             var _this2 = this;
 
+            var eventsOnlyMobile = ['touchstart', 'touchend'];
+            var eventsOnlyPc = ['mouseenter', 'mousemove', 'mouseleave'];
+            var allEvents = ['play', 'pause', 'ended'].concat(eventsOnlyMobile, eventsOnlyPc);
+            allEvents.forEach(function (eventName) {
+                var callbackName = 'handle' + toTitleCase(eventName);
+                _this2[callbackName] = _this2[callbackName].bind(_this2);
+                if (includes(eventsOnlyMobile, eventName)) {
+                    if (featureDetector.touch) {
+                        _this2.player[method](eventName, _this2[callbackName]);
+                    }
+                } else if (includes(eventsOnlyPc, eventName)) {
+                    if (!featureDetector.touch) {
+                        _this2.player[method](eventName, _this2[callbackName]);
+                    }
+                } else {
+                    _this2.player[method](eventName, _this2[callbackName]);
+                }
+            });
+        }
+    }, {
+        key: 'dispose',
+        value: function dispose() {
+            clearTimeout(this.timeoutHandler);
+            this.handleAllEvents('off');
+            _get(ControlsEvent.prototype.__proto__ || Object.getPrototypeOf(ControlsEvent.prototype), 'dispose', this).call(this);
+        }
+    }, {
+        key: 'setTimeoutTriggerControlsHide',
+        value: function setTimeoutTriggerControlsHide() {
+            var _this3 = this;
+
             this.timeoutHandler = setTimeout(function () {
-                _this2.player.trigger(_constants.Events.CONTROLS_HIDE);
+                _this3.player.trigger(_constants.Events.CONTROLS_HIDE);
             }, _constants.ACTIVE_DURATION);
         }
     }, {

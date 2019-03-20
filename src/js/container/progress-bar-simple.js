@@ -41,7 +41,7 @@ export default class ProgressBarSimple extends Component {
     }
 
     dispose() {
-        player.off('timeupdate', this.handleTimeUpdate);
+        this.player.off('timeupdate', this.handleTimeUpdate);
         this.line = null;
         super.dispose();
     }

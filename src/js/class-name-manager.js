@@ -66,6 +66,7 @@ export default class ClassNameManager extends Plugin {
     }
 
     dispose() {
+        clearTimeout(this.activeTimeoutHandler);
         if (featureDetector.touch) {
             this.player.off('touchstart', this.handleTouchStart);
             this.player.off('touchend', this.handleTouchEnd);
@@ -77,6 +78,8 @@ export default class ClassNameManager extends Plugin {
         this.events.forEach(event => {
             this.player.off(event, this[`handle${toTitleCase(event)}`]);
         });
+
+        this.player.off('firstplay', this.handleFirstplay);
 
         super.dispose();
     }
