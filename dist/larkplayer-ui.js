@@ -135,7 +135,7 @@ module.exports = g;
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
-  Copyright (c) 2016 Jed Watson.
+  Copyright (c) 2017 Jed Watson.
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/classnames
 */
@@ -157,8 +157,11 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 
 			if (argType === 'string' || argType === 'number') {
 				classes.push(arg);
-			} else if (Array.isArray(arg)) {
-				classes.push(classNames.apply(null, arg));
+			} else if (Array.isArray(arg) && arg.length) {
+				var inner = classNames.apply(null, arg);
+				if (inner) {
+					classes.push(inner);
+				}
 			} else if (argType === 'object') {
 				for (var key in arg) {
 					if (hasOwn.call(arg, key) && arg[key]) {
@@ -172,6 +175,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	}
 
 	if (typeof module !== 'undefined' && module.exports) {
+		classNames.default = classNames;
 		module.exports = classNames;
 	} else if (true) {
 		// register as 'classnames', consistent with npm package name
@@ -1573,7 +1577,7 @@ module.exports = "data:font/ttf;base64,AAEAAAAKAIAAAwAgT1MvMjXFQDQAAAEoAAAAVmNtY
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "data:application/font-woff;base64,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"
+module.exports = "data:font/woff;base64,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"
 
 /***/ }),
 
@@ -4762,18 +4766,125 @@ var _controlsPc = __webpack_require__(/*! ./container/controls-pc */ "./src/js/c
 
 var _controlsPc2 = _interopRequireDefault(_controlsPc);
 
+var _resetApi = __webpack_require__(/*! ./reset-api.js */ "./src/js/reset-api.js");
+
+var _resetApi2 = _interopRequireDefault(_resetApi);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_larkplayer.Plugin.register(_classNameManager2.default, { name: 'classNameManager' }); /**
-                                                                                        * @file larkplayer custom style
-                                                                                        * @author yuhui06
-                                                                                        * @date 2018/5/4
-                                                                                        */
+/**
+ * @file larkplayer custom style
+ * @author yuhui06
+ * @date 2018/5/4
+ */
 
+_larkplayer.Plugin.register(_classNameManager2.default, { name: 'classNameManager' });
 _larkplayer.Plugin.register(_controlsProxy2.default, { name: 'controlsProxy' });
 _larkplayer.Plugin.register(_controlsEvent2.default, { name: 'controlsEvent' });
+_larkplayer.Plugin.register(_resetApi2.default, { name: 'resetApi' });
 
 _larkplayer.util.featureDetector.touch ? _larkplayer.Component.register(_controlsMobile2.default, { name: 'controlsMobile' }) : _larkplayer.Component.register(_controlsPc2.default, { name: 'controlsPc' });
+
+/***/ }),
+
+/***/ "./src/js/reset-api.js":
+/*!*****************************!*\
+  !*** ./src/js/reset-api.js ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _larkplayer = __webpack_require__(/*! larkplayer */ "larkplayer");
+
+var _timeFormat = __webpack_require__(/*! ./util/time-format */ "./src/js/util/time-format.js");
+
+var _timeFormat2 = _interopRequireDefault(_timeFormat);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @file 增加 player.reset 方法，重置 UI
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author yuhui06
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 2019/5/9
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+
+var ControlsProxy = function (_Plugin) {
+    _inherits(ControlsProxy, _Plugin);
+
+    function ControlsProxy(player, options) {
+        _classCallCheck(this, ControlsProxy);
+
+        var _this = _possibleConstructorReturn(this, (ControlsProxy.__proto__ || Object.getPrototypeOf(ControlsProxy)).call(this, player, options));
+
+        _this.reset = _this.reset.bind(_this);
+        _this.player.reset = _this.reset;
+        return _this;
+    }
+
+    _createClass(ControlsProxy, [{
+        key: 'reset',
+        value: function reset() {
+            this.resetBufferBar();
+            this.resetCurrentTime();
+            this.resetDuration();
+            this.resetProgressBar();
+            this.resetProgressBarSimple();
+        }
+    }, {
+        key: 'resetBufferBar',
+        value: function resetBufferBar() {
+            var lineEl = _larkplayer.DOM.$('.lark-buffer-bar__line', this.player.el);
+            lineEl.style.width = 0;
+        }
+    }, {
+        key: 'resetCurrentTime',
+        value: function resetCurrentTime() {
+            var timeEl = _larkplayer.DOM.$('.lark-current-time', this.player.el);
+            _larkplayer.DOM.textContent(timeEl, (0, _timeFormat2.default)(0));
+        }
+    }, {
+        key: 'resetDuration',
+        value: function resetDuration() {
+            var durationEl = _larkplayer.DOM.$('.lark-duration', this.player.el);
+            _larkplayer.DOM.textContent(durationEl, '');
+        }
+
+        // TODO 验证 CSS 选择器
+
+    }, {
+        key: 'resetProgressBar',
+        value: function resetProgressBar() {
+            var lineEl = _larkplayer.DOM.$('.lark-progress-bar .lark-progress-bar__line', this.player.el);
+            lineEl.style.width = 0;
+        }
+
+        // TODO 验证 CSS 选择器
+
+    }, {
+        key: 'resetProgressBarSimple',
+        value: function resetProgressBarSimple() {
+            var lineEl = _larkplayer.DOM.$('.lark-progress-bar--simple .lark-progress-bar__line', this.player.el);
+            lineEl.style.width = 0;
+        }
+    }]);
+
+    return ControlsProxy;
+}(_larkplayer.Plugin);
+
+exports.default = ControlsProxy;
 
 /***/ }),
 
