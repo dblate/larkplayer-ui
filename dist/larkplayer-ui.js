@@ -4366,6 +4366,7 @@ var ProgressBar = function (_Slider) {
         value: function onSlideStart(event) {
             event.preventDefault();
             this.originalPaused = this.player.paused();
+            this.player.pause();
         }
     }, {
         key: 'onSlideMove',
@@ -4381,6 +4382,8 @@ var ProgressBar = function (_Slider) {
     }, {
         key: 'onSlideEnd',
         value: function onSlideEnd(event) {
+            var _this2 = this;
+
             var pos = _larkplayer.DOM.getPointerPosition(this.el, event);
             var currentTime = this.player.duration() * pos.x;
             this.player.currentTime(currentTime);
@@ -4391,7 +4394,10 @@ var ProgressBar = function (_Slider) {
             var isPaused = this.player.paused();
 
             if (isPaused && isOriginalPlay && !isEnded) {
-                this.player.play();
+                // setTimeout 避免进度条闪动
+                setTimeout(function () {
+                    _this2.player.play();
+                }, 0);
             }
         }
     }, {
@@ -4401,7 +4407,6 @@ var ProgressBar = function (_Slider) {
             var percent = pos.x * 100 + '%';
             var currentTime = this.player.duration() * pos.x;
 
-            // this.player.currentTime(currentTime);
             this.line.style.width = percent;
             if (this.currentTimeEl) {
                 _larkplayer.DOM.textContent(this.currentTimeEl, (0, _timeFormat2.default)(Math.floor(currentTime)));
@@ -4421,16 +4426,10 @@ var ProgressBar = function (_Slider) {
             var duration = this.player.duration();
             if (duration) {
                 var pointerPos = _larkplayer.DOM.getPointerPosition(this.el, event);
-                // const elPos = DOM.findPosition(this.el);
-
-                // const top = elPos.top - (this.paddingEl.offsetHeight - this.line.offsetHeight);
-                // const left = elPos.left + this.el.offsetWidth * pointerPos.x;
                 var currentTime = parseInt(duration * pointerPos.x, 10);
 
                 if (!isNaN(currentTime)) {
                     _tooltip2.default.show({
-                        // top: top,
-                        // left: left,
                         hostEl: this.el,
                         margin: 13,
                         placement: 'top',

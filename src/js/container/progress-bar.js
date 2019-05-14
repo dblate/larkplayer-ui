@@ -72,6 +72,7 @@ export default class ProgressBar extends Slider {
     onSlideStart(event) {
         event.preventDefault();
         this.originalPaused = this.player.paused();
+        this.player.pause();
     }
 
     onSlideMove(event) {
@@ -95,7 +96,10 @@ export default class ProgressBar extends Slider {
         const isPaused = this.player.paused();
 
         if (isPaused && isOriginalPlay && !isEnded) {
-            this.player.play();
+            // setTimeout 避免进度条闪动
+            setTimeout(() => {
+                this.player.play();
+            }, 0);
         }
     }
 
@@ -104,7 +108,6 @@ export default class ProgressBar extends Slider {
         const percent = pos.x * 100 + '%';
         const currentTime = this.player.duration() * pos.x;
 
-        // this.player.currentTime(currentTime);
         this.line.style.width = percent;
         if (this.currentTimeEl) {
             DOM.textContent(this.currentTimeEl, timeFormat(Math.floor(currentTime)));
@@ -122,16 +125,10 @@ export default class ProgressBar extends Slider {
         const duration = this.player.duration();
         if (duration) {
             const pointerPos = DOM.getPointerPosition(this.el, event);
-            // const elPos = DOM.findPosition(this.el);
-
-            // const top = elPos.top - (this.paddingEl.offsetHeight - this.line.offsetHeight);
-            // const left = elPos.left + this.el.offsetWidth * pointerPos.x;
             const currentTime = parseInt(duration * pointerPos.x, 10);
 
             if (!isNaN(currentTime)) {
                 tooltip.show({
-                    // top: top,
-                    // left: left,
                     hostEl: this.el,
                     margin: 13,
                     placement: 'top',
