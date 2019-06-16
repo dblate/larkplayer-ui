@@ -21,7 +21,7 @@ PC
 
 MOBILE
 
-<img src="./screenshots/larkplayer-mobile.png" width="640" height="360" />
+<img src="./screenshots/larkplayer-mobile-v1.png" width="640" height="360" />
 
 ## 下载
 
