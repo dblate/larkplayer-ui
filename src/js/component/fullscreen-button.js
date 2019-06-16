@@ -75,7 +75,7 @@ export default class FullscreenButton extends Component {
     createEl() {
         return (
             <div className={classnames('lark-fullscreen-button', this.options.className)}>
-                <div className="lark-request-fullscreen lark-icon-request-fullscreen" title="全屏"></div>
+                <div className="lark-request-fullscreen" title="全屏"></div>
                 <div className="lark-exit-fullscreen" title="退出全屏"></div>
             </div>
         );

@@ -10,6 +10,7 @@ import {Component} from 'larkplayer';
 import CurrentTime from '../component/current-time';
 import Duration from '../component/duration';
 import FullscreenButton from '../component/fullscreen-button';
+import VolumeMobile from '../component/volume-mobile';
 import ProgressBar from './progress-bar';
 
 export default class ControlBar extends Component {
@@ -22,6 +23,7 @@ export default class ControlBar extends Component {
     createEl() {
         return (
             <div className={classnames('lark-control-bar', this.options.className)}>
+                <VolumeMobile />
                 <CurrentTime />
                 <ProgressBar />
                 <Duration />

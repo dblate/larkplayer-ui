@@ -12,10 +12,10 @@
     top: 50%;
     .mixins-transform(translate(-50%, -50%));
     font-size: @button-font-size;
-    background: rgba(0, 0, 0, 0.3);
+    // background: rgba(0, 0, 0, 0.3);
     color: @primary-color;
     border-radius: 50%;
-    border: 1px solid #fff;
+    // border: 1px solid #fff;
     box-sizing: border-box;
     width: @button-size;
     height: @button-size;
@@ -25,12 +25,23 @@
 .lark-play-button__play {
     display: block;
     // 没有居中，需要微调下
-    position: relative;
-    left: 2px;
+    // position: relative;
+    // left: 2px;
+
+    // TEST
+    background: url('./resource/images/play.png') center no-repeat;
 }
 
 .lark-play-button__pause {
     display: none;
+    background: url('./resource/images/pause.png') center no-repeat;
+}
+
+.lark-play-button__play,
+.lark-play-button__pause {
+    background-size: contain;
+    width: 100%;
+    height: 100%;
 }
 
 .lark-play-button {

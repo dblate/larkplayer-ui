@@ -3,19 +3,25 @@
 
 .lark-exit-fullscreen {
     display: none;
-    // @todo svg 转化成的字体有问题，先用 png 图片处理
     background: url('./resource/images/exit-fullscreen.png') center no-repeat;
-    background-size: contain;
-    width: 1em;
-    height: 100%;
 }
 .lark-request-fullscreen {
     display: block;
+    background: url('./resource/images/request-fullscreen.png') center no-repeat;
 }
+
+.lark-exit-fullscreen,
+.lark-request-fullscreen {
+    background-size: contain;
+    width: 100%;
+    height: 100%;
+}
+
 .lark-fullscreen-button {
     cursor: pointer;
     padding: 0 @primary-spacing;
-    height: 100%;
+    width: 20px;
+    height: 20px;
     .mixins-flex();
     .mixins-flex-center-v();
 }
