@@ -2,7 +2,7 @@
   "name": "larkplayer-ui",
   "title": "larkplayer-ui",
   "description": "Custom style for larkplayer",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "main": "./dist/larkplayer-ui.js",
   "homepage": "https://github.com/dblate/larkplayer-ui",
   "author": {
