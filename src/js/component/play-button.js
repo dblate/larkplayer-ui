@@ -42,12 +42,21 @@ export default class PlayButton extends Component {
     }
 
     createEl() {
+        const mobileClassMap = {
+            container: 'lark-play-button--mobile',
+            btnPlay: 'lark-play-button__play',
+            btnPause: 'lark-play-button__pause'
+        };
+        const pcClassMap = {
+            container: 'lark-play-button-pc',
+            btnPlay: 'lark-icon-play lark-play-button__play',
+            btnPause: 'lark-icon-pause lark-play-button__pause'
+        };
+        const classMap = featureDetector.touch ? mobileClassMap : pcClassMap;
         return (
-            <div className={classnames('lark-play-button', this.options.className, {
-                'lark-play-button--mobile': !this.options.className
-            })}>
-                <div className="lark-play-button__play" title="play"></div>
-                <div className="lark-play-button__pause" title="pause"></div>
+            <div className={classnames('lark-play-button', classMap.container)}>
+                <div className={classMap.btnPlay}></div>
+                <div className={classMap.btnPause}></div>
             </div>
         );
     }

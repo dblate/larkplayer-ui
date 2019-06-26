@@ -155,7 +155,6 @@
 
 // fullscreen
 .lark-fullscreen {
-
     width: 100% !important;
     height: 100% !important;
     padding-top: 0 !important;
@@ -167,6 +166,15 @@
     }
     .lark-request-fullscreen {
         display: none;
+    }
+}
+
+@media screen and (orientation:landscape) {
+    .lark-all-screen.lark-fullscreen {
+        .lark-control-bar {
+            padding-right: 34px;
+            box-sizing: border-box;
+        }
     }
 }
 

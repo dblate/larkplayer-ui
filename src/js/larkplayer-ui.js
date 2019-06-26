@@ -14,6 +14,7 @@ import ControlsMobile from './container/controls-mobile';
 import ControlsPc from './container/controls-pc';
 import ResetApi from './reset-api.js';
 
+
 Plugin.register(ClassNameManager, {name: 'classNameManager'});
 Plugin.register(ControlsProxy, {name: 'controlsProxy'});
 Plugin.register(ControlsEvent, {name: 'controlsEvent'});

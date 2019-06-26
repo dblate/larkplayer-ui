@@ -14,7 +14,7 @@
 
 import {Plugin, DOM, util} from 'larkplayer';
 
-import {ClassNames, ACTIVE_DURATION} from './constants';
+import {ClassNames, ACTIVE_DURATION, NORMAL_SCREEN_RATIO} from './constants';
 
 const {toTitleCase, featureDetector} = util;
 
@@ -63,6 +63,12 @@ export default class ClassNameManager extends Plugin {
         this.player.on('firstplay', this.handleFirstplay);
 
         this.player.addClass(ClassNames.PAUSED);
+
+        // 全面屏适配
+        const isAllScreen = (window.screen.height / window.screen.width) > NORMAL_SCREEN_RATIO;
+        if (isAllScreen) {
+            this.player.addClass(ClassNames.ALL_SCREEN);
+        }
     }
 
     dispose() {

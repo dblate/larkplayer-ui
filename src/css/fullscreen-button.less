@@ -1,6 +1,7 @@
 @import (reference) './mixins/mixins.less';
 @import './variables.less';
 
+@icon_size: 20px;
 .lark-exit-fullscreen {
     display: none;
     background: url('./resource/images/exit-fullscreen.png') center no-repeat;
@@ -13,15 +14,15 @@
 .lark-exit-fullscreen,
 .lark-request-fullscreen {
     background-size: contain;
-    width: 100%;
-    height: 100%;
+    width: @icon_size;
+    height: @icon_size;
 }
 
 .lark-fullscreen-button {
     cursor: pointer;
     padding: 0 @primary-spacing;
-    width: 20px;
-    height: 20px;
+    width: @icon_size;
+    height: 100%;
     .mixins-flex();
     .mixins-flex-center-v();
 }

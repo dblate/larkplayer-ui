@@ -14,7 +14,8 @@ export const ClassNames = {
     PLAYING: 'lark-status-playing',
     ACTIVE: 'lark-status-user-active',
     HAS_START: 'lark-status-has-start',
-    CONTROLS_HIDE: 'lark-custom-controls-hide'
+    CONTROLS_HIDE: 'lark-custom-controls-hide',
+    ALL_SCREEN: 'lark-all-screen'
 };
 
 export const Events = {
@@ -23,3 +24,5 @@ export const Events = {
 };
 
 export const ACTIVE_DURATION = 3000;
+
+export const NORMAL_SCREEN_RATIO = 16 / 9;

@@ -37,8 +37,7 @@ export default class Volume extends Component {
 
     createEl() {
         return (
-            <div className="lark-volume-mobile">
-            </div>
+            <div className="lark-volume-mobile"></div>
         );
     }
 }
