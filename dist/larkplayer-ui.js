@@ -5002,37 +5002,41 @@ var ControlsProxy = function (_Plugin) {
         key: 'resetBufferBar',
         value: function resetBufferBar() {
             var lineEl = _larkplayer.DOM.$('.lark-buffer-bar__line', this.player.el);
-            lineEl.style.width = 0;
+            if (lineEl) {
+                lineEl.style.width = 0;
+            }
         }
     }, {
         key: 'resetCurrentTime',
         value: function resetCurrentTime() {
             var timeEl = _larkplayer.DOM.$('.lark-current-time', this.player.el);
-            _larkplayer.DOM.textContent(timeEl, (0, _timeFormat2.default)(0));
+            if (timeEl) {
+                _larkplayer.DOM.textContent(timeEl, (0, _timeFormat2.default)(0));
+            }
         }
     }, {
         key: 'resetDuration',
         value: function resetDuration() {
             var durationEl = _larkplayer.DOM.$('.lark-duration', this.player.el);
-            _larkplayer.DOM.textContent(durationEl, '');
+            if (durationEl) {
+                _larkplayer.DOM.textContent(durationEl, '');
+            }
         }
-
-        // TODO 验证 CSS 选择器
-
     }, {
         key: 'resetProgressBar',
         value: function resetProgressBar() {
             var lineEl = _larkplayer.DOM.$('.lark-progress-bar .lark-progress-bar__line', this.player.el);
-            lineEl.style.width = 0;
+            if (lineEl) {
+                lineEl.style.width = 0;
+            }
         }
-
-        // TODO 验证 CSS 选择器
-
     }, {
         key: 'resetProgressBarSimple',
         value: function resetProgressBarSimple() {
             var lineEl = _larkplayer.DOM.$('.lark-progress-bar--simple .lark-progress-bar__line', this.player.el);
-            lineEl.style.width = 0;
+            if (lineEl) {
+                lineEl.style.width = 0;
+            }
         }
     }]);
 
