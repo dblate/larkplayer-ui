@@ -18,10 +18,9 @@ export default class PlayButton extends Component {
         // 注意 这里需要将 context（第二个参数） 设置为 this.el，因为这时 DOM 元素还没有插入到 document 里，所以在 document 里是查不到这个元素的
         this.playBtn = DOM.$('.lark-play-button__play', this.el);
         this.pauseBtn = DOM.$('.lark-play-button__pause', this.el);
-        this.eventName = featureDetector.touch ? 'touchend' : 'click';
 
-        Events.on(this.playBtn, this.eventName, this.togglePlay);
-        Events.on(this.pauseBtn, this.eventName, this.togglePlay);
+        Events.on(this.playBtn, 'click', this.togglePlay);
+        Events.on(this.pauseBtn, 'click', this.togglePlay);
     }
 
     togglePlay(event, isPlay) {
@@ -33,8 +32,8 @@ export default class PlayButton extends Component {
     }
 
     dispose() {
-        Events.off(this.playBtn, this.eventName, this.togglePlay);
-        Events.off(this.pauseBtn, this.eventName, this.togglePlay);
+        Events.off(this.playBtn, 'click', this.togglePlay);
+        Events.off(this.pauseBtn, 'click', this.togglePlay);
         this.playBtn = null;
         this.pauseBtn = null;
 

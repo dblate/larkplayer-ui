@@ -3151,10 +3151,9 @@ var PlayButton = function (_Component) {
         // 注意 这里需要将 context（第二个参数） 设置为 this.el，因为这时 DOM 元素还没有插入到 document 里，所以在 document 里是查不到这个元素的
         _this.playBtn = _larkplayer.DOM.$('.lark-play-button__play', _this.el);
         _this.pauseBtn = _larkplayer.DOM.$('.lark-play-button__pause', _this.el);
-        _this.eventName = featureDetector.touch ? 'touchend' : 'click';
 
-        _larkplayer.Events.on(_this.playBtn, _this.eventName, _this.togglePlay);
-        _larkplayer.Events.on(_this.pauseBtn, _this.eventName, _this.togglePlay);
+        _larkplayer.Events.on(_this.playBtn, 'click', _this.togglePlay);
+        _larkplayer.Events.on(_this.pauseBtn, 'click', _this.togglePlay);
         return _this;
     }
 
@@ -3170,8 +3169,8 @@ var PlayButton = function (_Component) {
     }, {
         key: 'dispose',
         value: function dispose() {
-            _larkplayer.Events.off(this.playBtn, this.eventName, this.togglePlay);
-            _larkplayer.Events.off(this.pauseBtn, this.eventName, this.togglePlay);
+            _larkplayer.Events.off(this.playBtn, 'click', this.togglePlay);
+            _larkplayer.Events.off(this.pauseBtn, 'click', this.togglePlay);
             this.playBtn = null;
             this.pauseBtn = null;
 
