@@ -169,11 +169,21 @@
     }
 }
 
+// 安卓横屏全屏时，全面屏手机两侧最边上无法点击
 @media screen and (orientation:landscape) {
     .lark-all-screen.lark-fullscreen {
         .lark-control-bar {
             padding: 0 30px;
             box-sizing: border-box;
+        }
+    }
+}
+
+// 安卓竖屏全屏时，拉开与底部手机控制条的距离
+@media screen and (orientation:portrait) {
+    .lark-fullscreen {
+        .lark-control-bar {
+            bottom: 50px;
         }
     }
 }
@@ -189,6 +199,3 @@
         }
     }
 }
-
-
-
