@@ -69,6 +69,12 @@ export default class ClassNameManager extends Plugin {
         if (isAllScreen) {
             this.player.addClass(ClassNames.ALL_SCREEN);
         }
+
+        // 直播适配
+        const isLive = isFinite(this.player.duration());
+        if (isLive) {
+            this.player.addClass(ClassNames.LIVE_PLAY)
+        }
     }
 
     dispose() {
@@ -316,5 +322,3 @@ export default class ClassNameManager extends Plugin {
         this.player.addClass(ClassNames.ERROR);
     }
 }
-
-

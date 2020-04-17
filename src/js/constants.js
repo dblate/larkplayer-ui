@@ -15,7 +15,8 @@ export const ClassNames = {
     ACTIVE: 'lark-status-user-active',
     HAS_START: 'lark-status-has-start',
     CONTROLS_HIDE: 'lark-custom-controls-hide',
-    ALL_SCREEN: 'lark-all-screen'
+    ALL_SCREEN: 'lark-all-screen',
+    LIVE_PLAY: 'lark-live-play'
 };
 
 export const Events = {
