@@ -54,13 +54,9 @@ export default class PlayButton extends Component {
         const classMap = featureDetector.touch ? mobileClassMap : pcClassMap;
         return (
             <div className={classnames('lark-play-button', classMap.container)}>
-                <div className={classMap.btnPlay}></div>
-                <div className={classMap.btnPause}></div>
+                <div className={classMap.btnPlay} title="播放"></div>
+                <div className={classMap.btnPause} title="暂停"></div>
             </div>
         );
     }
 }
-
-
-
-

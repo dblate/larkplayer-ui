@@ -14,11 +14,6 @@
     margin-right: @primary-spacing;
 }
 
-.lark-volume-icon {
-    margin-right: 4px;
-    float: left;
-}
-
 .lark-volume-line {
     float: left;
     position: relative;
@@ -52,4 +47,22 @@
     height: @ball-size;
     border-radius: 50%;
     background: @primary-color;
+}
+
+.lark-volume-pc {
+    float: left;
+    width: 20px;
+    height: 100%;
+    margin-right: 8px;
+    background: center no-repeat;
+    background-size: contain;
+}
+.lark-volume-pc--large {
+    background-image: url('./resource/images/volume-large.svg');
+}
+.lark-volume-pc--small {
+    background-image: url('./resource/images/volume-small.svg');
+}
+.lark-volume-pc--muted {
+    background-image: url('./resource/images/volume-muted.svg');
 }

@@ -3,6 +3,7 @@
  * @author yuhui06
  * @date 2018/3/9
  * @date 2018/4/25 现在通过 js 修改音量也会触发 UI 改变（yuhui06）
+ * @date 2020/6/28 优化音量图标样式
  */
 
 
@@ -38,7 +39,7 @@ export default class Volume extends Slider {
 
         this.line = DOM.$('.lark-volume-line__line', this.el);
         this.ball = DOM.$('.lark-volume-line__ball', this.el);
-        this.icon = DOM.$('.lark-volume-icon', this.el);
+        this.icon = DOM.$('.lark-volume-pc', this.el);
 
         Events.on(this.icon, 'click', this.iconClick);
         Events.on(this.icon, 'mouseover', this.handleIconMouseOver);
@@ -137,18 +138,18 @@ export default class Volume extends Slider {
 
         let status;
         if (volume === 0) {
-            status = 'small';
+            status = 'muted';
         } else if (volume <= 0.6 && volume > 0) {
-            status = 'middle';
+            status = 'small';
         } else if (volume > 0.6) {
             status = 'large';
         }
 
-        DOM.addClass(this.icon, `lark-icon-sound-${status}`);
+        DOM.addClass(this.icon, `lark-volume-pc--${status}`);
     }
 
     clearStatus() {
-        const statusClass = ['lark-icon-sound-small', 'lark-icon-sound-middle', 'lark-icon-sound-large'];
+        const statusClass = ['lark-volume-pc--muted', 'lark-volume-pc--small', 'lark-volume-pc--large'];
         statusClass.forEach(className => {
             DOM.removeClass(this.icon, className);
         });
@@ -174,7 +175,7 @@ export default class Volume extends Slider {
     createEl() {
         return (
             <div className={classnames('lark-volume', this.options.className)}>
-                <div className="lark-volume-icon lark-icon-sound-large"></div>
+                <div className="lark-volume-pc lark-volume-pc--large"></div>
                 <div className="lark-volume-line">
                     <div className="lark-volume-line__line">
                         <div className="lark-volume-line__line-padding"></div>
@@ -185,6 +186,3 @@ export default class Volume extends Slider {
         );
     }
 }
-
-
-

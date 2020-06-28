@@ -43,5 +43,3 @@ export default class ControlBarPc extends Component {
         );
     }
 }
-
-
