@@ -21,7 +21,7 @@ export default class Volume extends Slider {
         super(player, options);
 
         this.volumeRecord = {
-            last: this.player.volume(),
+            last: 1,
             current: this.player.volume()
         };
 
@@ -49,6 +49,7 @@ export default class Volume extends Slider {
         Events.on(this.ball, 'touchstart', this.handleSlideStart);
 
         this.player.on('volumechange', this.handleVolumeChange);
+        this.player.on('play', this.handleVolumeChange);
     }
 
     onSlideStart(event) {
@@ -110,7 +111,7 @@ export default class Volume extends Slider {
         if (this.player.volume() && !this.player.muted()) {
             this.player.volume(0);
         } else {
-            this.player.volume(this.volumeRecord.last);
+            this.player.volume(this.volumeRecord.last || 1);
             this.player.muted(false);
         }
 
@@ -168,6 +169,7 @@ export default class Volume extends Slider {
         this.ball = null;
 
         this.player.off('volumechange', this.handleVolumeChange);
+        this.player.off('play', this.handleVolumeChange);
 
         super.dispose();
     }
