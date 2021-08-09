@@ -130,7 +130,7 @@ export default class ProgressBar extends Slider {
             if (!isNaN(currentTime)) {
                 tooltip.show({
                     hostEl: this.el,
-                    margin: 13,
+                    margin: 8,
                     placement: 'top',
                     isFollowMouse: true,
                     event: event,
