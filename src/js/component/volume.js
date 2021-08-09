@@ -121,7 +121,7 @@ export default class Volume extends Slider {
     showTooltip() {
         tooltip.show({
             hostEl: this.icon,
-            margin: 16,
+            margin: 11,
             content: (this.player.volume() && !this.player.muted()) ? '静音' : '取消静音'
         });
     }
