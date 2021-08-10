@@ -48,7 +48,7 @@ export default class FullscreenButton extends Component {
         tooltip.show({
             hostEl: event.target,
             placement: 'top',
-            margin: 16,
+            margin: 21,
             content: event.target.title
         });
     }
